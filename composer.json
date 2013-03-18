@@ -1,25 +1,25 @@
 {
-    "name": "idci/contact-form-bundle",
-    "type": "symfony-bundle",
-    "description": "Symfony ContactFormBundle",
-    "keywords": ["forms", "social network", "mail", "message"],
-    "license": "GPL-3.0+",
-    "authors": [
-        {
-            "name": "Gabriel Bondaz",
-            "email": "gabriel.bondaz@idci-consulting.fr",
-            "homepage": "http://www.idci-consulting.fr"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.2",
-        "symfony/framework-bundle":         ">=2.1,<2.3-dev",
-        "twig/twig":                        "*",
-        "doctrine/doctrine-bundle":         "*"
-    },
-    "autoload": {
-        "psr-0": { "IDCI\\Bundle\\ContactFormBundle": "" }
-    },
-    "target-dir": "IDCI/Bundle/ContactFormBundle",
-    "minimum-stability": "dev"
+    "name": "idci/contact-form-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony ContactFormBundle",
+    "keywords": ["forms", "social network", "mail", "message"],
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Gabriel Bondaz",
+            "email": "gabriel.bondaz@idci-consulting.fr",
+            "homepage": "http://www.idci-consulting.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle":  ">=2.1,<2.3-dev",
+        "twig/twig":                 "*",
+        "doctrine/doctrine-bundle":  "*"
+    },
+    "autoload": {
+        "psr-0": { "IDCI\\Bundle\\ContactFormBundle": "" }
+    },
+    "target-dir": "IDCI/Bundle/ContactFormBundle",
+    "minimum-stability": "dev"
 }
