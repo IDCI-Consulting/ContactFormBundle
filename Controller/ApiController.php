@@ -9,10 +9,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ApiController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/contact")
      * @Template()
      */
-    public function indexAction()
+    public function contactAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/share")
+     * @Template()
+     */
+    public function shareAction()
     {
         return array();
     }

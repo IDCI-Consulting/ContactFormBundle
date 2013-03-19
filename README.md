@@ -39,6 +39,14 @@ public function registerBundles()
 }
 ```
 
+Add needed routes in the `app/config/routing.yml` to use this bundle with all your forms anywhere
+
+```yml
+idci_contact_form:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller"
+    type:     annotation
+```
+
 Now the Bundle is installed.
 
 Configure your database parameters in the `app/config/parameters.yml` then run
