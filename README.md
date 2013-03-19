@@ -14,7 +14,7 @@ First add the dependencies to your `composer.json` file:
 ```json
 "require": {
     ...
-    "idci/contact-form-bundle":     "dev-master"
+    "idci/contact-form-bundle": "dev-master"
 },
 ```
 
@@ -34,7 +34,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new IDCI\Bundle\ContactFormBundle\IDCIContactFormBundle()
+        new IDCI\Bundle\ContactFormBundle\IDCIContactFormBundle(),
     );
 }
 ```
