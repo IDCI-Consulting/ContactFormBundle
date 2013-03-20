@@ -1,13 +1,8 @@
-TODO
-=====
+idci_contactform:
+    mode:               normal  # "normal"      Store transiting messages
+                                # "anonyme"     Do not keep transiting messages content and origin
+                                # "social"      Store transiting messages and allow the bundle to serve them throw an api (need idci-exporter-bundle)
 
-mode:
-    normal (Store transiting messages)
-    anonyme(do not keep transiting messages content and origin)
-    social:(Store transiting messages and allow the bundle to serve them throw an api (need idci-exporter-bundle)
-
-security:
-    tracking_enabled: boolean (keep for all message the ip, the user-agent and the referer)
-    https_only: boolean
-    method_get_only: boolean
-    method_post_only: boolean
+    tracking_enabled:   true    # Keep for all messages the ip, the user-agent and the referer
+    https_only:         false   # Work only with https request
+    restricted_method:  ANY     # Available choices: POST | PUT | GET

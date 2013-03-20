@@ -57,6 +57,27 @@ class Message
     private $data;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ip", type="string")
+     */
+    private $ip;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent", type="string")
+     */
+    private $userAgent;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="referer", type="string")
+     */
+    private $referer;
+
+    /**
      * @ORM\PrePersist()
      */
     public function onCreate()
@@ -164,5 +185,74 @@ class Message
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * Set ip
+     *
+     * @param string $ip
+     * @return Message
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+    
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return string 
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * Set userAgent
+     *
+     * @param string $userAgent
+     * @return Message
+     */
+    public function setUserAgent($userAgent)
+    {
+        $this->userAgent = $userAgent;
+    
+        return $this;
+    }
+
+    /**
+     * Get userAgent
+     *
+     * @return string 
+     */
+    public function getUserAgent()
+    {
+        return $this->userAgent;
+    }
+
+    /**
+     * Set referer
+     *
+     * @param string $referer
+     * @return Message
+     */
+    public function setReferer($referer)
+    {
+        $this->referer = $referer;
+    
+        return $this;
+    }
+
+    /**
+     * Get referer
+     *
+     * @return string 
+     */
+    public function getReferer()
+    {
+        return $this->referer;
     }
 }

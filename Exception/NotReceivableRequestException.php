@@ -11,5 +11,4 @@ namespace IDCI\Bundle\ContactFormBundle\Exception;
 
 class NotReceivableRequestException extends \Exception
 {
-
 }

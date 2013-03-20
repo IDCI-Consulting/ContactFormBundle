@@ -12,6 +12,8 @@ namespace IDCI\Bundle\ContactFormBundle\Service;
 use Symfony\Component\HttpFoundation\Request;
 use IDCI\Bundle\ContactFormBundle\Exception\NotReceivableRequestException;
 use IDCI\Bundle\ContactFormBundle\Exception\NotValidSourceException;
+use IDCI\Bundle\ContactFormBundle\Entity\Source;
+use IDCI\Bundle\ContactFormBundle\Entity\Message;
 
 class Manager
 {
@@ -39,7 +41,7 @@ class Manager
      */
     public function getEntityManager()
     {
-        return $this->container->get('doctrine.orm.entity_manager');
+        return $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
     /**
@@ -49,7 +51,19 @@ class Manager
      */
     public function getConfiguration()
     {
-        return $this->container->getParameter('contactFormConfiguration');
+        return $this->getContainer()->getParameter('contactFormConfiguration');
+    }
+
+    /**
+     * Get configuration parameter
+     *
+     * @return mixed
+     */
+    public function getConfigurationParameter($name)
+    {
+        $configuration = $this->getConfiguration();
+
+        return $configuration[$name];
     }
 
     /**
@@ -59,8 +73,15 @@ class Manager
      */
     public function isReceivableRequest(Request $request)
     {
-        // https_only
-        return false;
+        if($this->getConfigurationParameter('https_only')) {
+            return $request->isSecure();
+        }
+
+        if($this->getConfigurationParameter('restricted_method') != 'ANY') {
+            return $request->getMethod() == $this->getConfigurationParameter('restricted_method');
+        }
+
+        return true;
     }
 
     /**
@@ -70,8 +91,9 @@ class Manager
      * @param Request $request
      * @return boolean
      */
-    public function isValidSource($source, Request $request)
+    public function isValidSource(Source $source, Request $request)
     {
+        //if($source->get)
         // Compare the request with source preferences
           // domainListe
           // ipWhiteListe
@@ -79,6 +101,7 @@ class Manager
           // httpsOnly
           // methodPostOnly
           // methodGetOnly
+
         return false;
     }
 
@@ -90,6 +113,7 @@ class Manager
      */
     public function getSource($token)
     {
+        return $this->getEntityManager()->getRepository('IDCIContactFormBundle:Source')->getSource($token);
     }
 
     /**
@@ -99,7 +123,7 @@ class Manager
      * @param Request $request
      * @return array
      */
-    public function getRequestData($source, Request $request)
+    public function getRequestData(Source $source, Request $request)
     {
         if(!$this->isReceivableRequest($request)) {
             throw new NotReceivableRequestException();
@@ -140,7 +164,7 @@ class Manager
      * @param Source $source
      * @param Message $message
      */
-    public function notify($source, $message)
+    public function notify(Source $source, Message $message)
     {
     }
 

@@ -12,7 +12,7 @@ namespace IDCI\Bundle\ContactFormBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="IDCI\Bundle\ContactFormBundle\Repository\SourceRepository")
  * @ORM\Table(name="idci_contact_source")
  * @ORM\HasLifecycleCallbacks
  */
