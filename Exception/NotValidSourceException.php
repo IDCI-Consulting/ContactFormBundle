@@ -7,8 +7,9 @@
  *
  */
 
-namespace IDCI\Bundle\ContactFormBundle\Provider;
+namespace IDCI\Bundle\ContactFormBundle\Exception;
 
-class MailProvider extends BaseProvider
+class NotValidSourceException extends \Exception
 {
+
 }

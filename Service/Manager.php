@@ -10,6 +10,8 @@
 namespace IDCI\Bundle\ContactFormBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
+use IDCI\Bundle\ContactFormBundle\Exception\NotReceivableRequestException;
+use IDCI\Bundle\ContactFormBundle\Exception\NotValidSourceException;
 
 class Manager
 {
