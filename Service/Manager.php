@@ -20,20 +20,34 @@ class Manager
         $this->container = $container;
     }
 
-    public function getEntityManager()
+    /**
+     * Get the container
+     *
+     * @return Container
+     */
+    public function getContainer()
     {
-
+        return $this->container;
     }
 
     /**
-     * Get the configuration value for a given 'name/key/id'
+     * Get the entity manager
      *
-     * @param string $parameter_name
-     * @return string | array
+     * @return EntityManager
      */
-    public function getConfiguration($parameter_name)
+    public function getEntityManager()
     {
-        
+        return $this->container->get('doctrine.orm.entity_manager');
+    }
+
+    /**
+     * Get the configuration
+     *
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->container->getParameter('contactFormConfiguration');
     }
 
     /**
@@ -93,11 +107,11 @@ class Manager
             throw new NotValidSourceException();
         }
 
-        if ($this->getConfiguration('method_get_only') {
+        if ($this->getConfiguration('method_get_only')) {
             return $request->query->all();
         }
 
-        if ($this->getConfiguration('method_post_only') {
+        if ($this->getConfiguration('method_post_only')) {
             return $request->request->all();
         }
 

@@ -1,0 +1,4 @@
+services:
+    idci_contactform.manager:
+        class: IDCI\Bundle\ContactFormBundle\Service\Manager
+        arguments: [@service_container]
