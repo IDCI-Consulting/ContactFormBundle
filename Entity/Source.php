@@ -28,6 +28,13 @@ class Source
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string")
+     */
+    private $name;
+
+    /**
      * @var datetime $created_at
      * 
      * @ORM\Column(name="created_at", type="datetime")
@@ -37,16 +44,51 @@ class Source
     /**
      * @var string
      *
-     * @ORM\Column(name="domain", type="string")
+     * @ORM\Column(name="api_token", type="string")
      */
-    private $domain;
+    private $apiToken;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="api_token", type="string")
+     * @ORM\Column(name="domain_liste", type="json_array")
      */
-    private $apiToken;
+    private $domainListe;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="ip_white_liste", type="json_array")
+     */
+    private $ipWhiteListe;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="ip_black_liste", type="json_array")
+     */
+    private $ipBlackListe;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="https_only", type="boolean")
+     */
+    private $httpsOnly;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="method_post_only", type="boolean")
+     */
+    private $methodPostOnly;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="method_get_only", type="boolean")
+     */
+    private $methodGetOnly;
 
     public static function generateToken()
     {

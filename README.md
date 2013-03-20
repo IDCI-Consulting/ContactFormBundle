@@ -42,9 +42,19 @@ public function registerBundles()
 Add needed routes in the `app/config/routing.yml` to use this bundle with all your forms anywhere
 
 ```yml
-idci_contact_form:
-    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller"
+idci_contact_form_api:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/ApiController.php"
     type:     annotation
+    prefix: /contact
+```
+
+If you wish to see a form demo in action, you can add a contact demo controller
+
+```yml
+idci_contact_form_demo:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/DemoController.php"
+    type:     annotation
+    prefix: /contact-demo
 ```
 
 Now the Bundle is installed.
