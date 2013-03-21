@@ -58,23 +58,23 @@ class Source
     /**
      * @var string
      *
-     * @ORM\Column(name="domain_liste", type="json_array", nullable=true)
+     * @ORM\Column(name="domain_list", type="json_array", nullable=true)
      */
-    private $domainListe;
+    private $domainList;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="ip_white_liste", type="json_array", nullable=true)
+     * @ORM\Column(name="ip_white_list", type="json_array", nullable=true)
      */
-    private $ipWhiteListe;
+    private $ipWhiteList;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="ip_black_liste", type="json_array", nullable=true)
+     * @ORM\Column(name="ip_black_list", type="json_array", nullable=true)
      */
-    private $ipBlackListe;
+    private $ipBlackList;
 
     /**
      * @var boolean
@@ -86,16 +86,9 @@ class Source
     /**
      * @var boolean
      *
-     * @ORM\Column(name="method_post_only", type="boolean", options={"default":0})
+     * @ORM\Column(name="http_method", type="string", nullable=true)
      */
-    private $methodPostOnly;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="method_get_only", type="boolean", options={"default":0})
-     */
-    private $methodGetOnly;
+    private $httpMethod;
 
     /**
      * @ORM\OneToMany(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\Message", mappedBy="source")
@@ -126,8 +119,6 @@ class Source
         $this->messages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setIsEnabled(true);
         $this->setHttpsOnly(false);
-        $this->setMethodPostOnly(false);
-        $this->setMethodGetOnly(false);
     }
     
     /**
@@ -233,72 +224,72 @@ class Source
     }
 
     /**
-     * Set domainListe
+     * Set domainList
      *
-     * @param array $domainListe
+     * @param array $domainList
      * @return Source
      */
-    public function setDomainListe($domainListe)
+    public function setDomainList($domainList)
     {
-        $this->domainListe = $domainListe;
+        $this->domainList = $domainList;
     
         return $this;
     }
 
     /**
-     * Get domainListe
+     * Get domainList
      *
      * @return array 
      */
-    public function getDomainListe()
+    public function getDomainList()
     {
-        return $this->domainListe;
+        return $this->domainList;
     }
 
     /**
-     * Set ipWhiteListe
+     * Set ipWhiteList
      *
-     * @param array $ipWhiteListe
+     * @param array $ipWhiteList
      * @return Source
      */
-    public function setIpWhiteListe($ipWhiteListe)
+    public function setIpWhiteList($ipWhiteList)
     {
-        $this->ipWhiteListe = $ipWhiteListe;
+        $this->ipWhiteList = $ipWhiteList;
     
         return $this;
     }
 
     /**
-     * Get ipWhiteListe
+     * Get ipWhiteList
      *
      * @return array 
      */
-    public function getIpWhiteListe()
+    public function getIpWhiteList()
     {
-        return $this->ipWhiteListe;
+        return $this->ipWhiteList;
     }
 
     /**
-     * Set ipBlackListe
+     * Set ipBlackList
      *
-     * @param array $ipBlackListe
+     * @param array $ipBlackList
      * @return Source
      */
-    public function setIpBlackListe($ipBlackListe)
+    public function setIpBlackList($ipBlackList)
     {
-        $this->ipBlackListe = $ipBlackListe;
+        $this->ipBlackList = $ipBlackList;
     
         return $this;
     }
 
     /**
-     * Get ipBlackListe
+     * Get ipBlackList
      *
      * @return array 
      */
-    public function getIpBlackListe()
+    public function getIpBlackList()
     {
-        return $this->ipBlackListe;
+        return $this->ipBlackList;
     }
 
     /**
@@ -325,72 +316,49 @@ class Source
     }
 
     /**
-     * Set methodPostOnly
+     * Set httpMethod
      *
-     * @param boolean $methodPostOnly
+     * @param string $httpMethod
      * @return Source
      */
-    public function setMethodPostOnly($methodPostOnly)
+    public function setHttpMethod($httpMethod)
     {
-        $this->methodPostOnly = $methodPostOnly;
+        $this->httpMethod = $httpMethod;
     
         return $this;
     }
 
     /**
-     * Get methodPostOnly
+     * Get httpMethod
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getMethodPostOnly()
+    public function getHttpMethod()
     {
-        return $this->methodPostOnly;
+        return $this->httpMethod;
     }
 
     /**
-     * Set methodGetOnly
+     * Add message
      *
-     * @param boolean $methodGetOnly
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\Message $message
      * @return Source
      */
-    public function setMethodGetOnly($methodGetOnly)
+    public function addMessage(\IDCI\Bundle\ContactFormBundle\Entity\Message $message)
     {
-        $this->methodGetOnly = $methodGetOnly;
+        $this->messages[] = $message;
     
         return $this;
     }
 
     /**
-     * Get methodGetOnly
+     * Remove message
      *
-     * @return boolean 
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\Message $message
      */
-    public function getMethodGetOnly()
+    public function removeMessage(\IDCI\Bundle\ContactFormBundle\Entity\Message $message)
     {
-        return $this->methodGetOnly;
-    }
-
-    /**
-     * Add messages
-     *
-     * @param \IDCI\Bundle\ContactFormBundle\Entity\Message $messages
-     * @return Source
-     */
-    public function addMessage(\IDCI\Bundle\ContactFormBundle\Entity\Message $messages)
-    {
-        $this->messages[] = $messages;
-    
-        return $this;
-    }
-
-    /**
-     * Remove messages
-     *
-     * @param \IDCI\Bundle\ContactFormBundle\Entity\Message $messages
-     */
-    public function removeMessage(\IDCI\Bundle\ContactFormBundle\Entity\Message $messages)
-    {
-        $this->messages->removeElement($messages);
+        $this->messages->removeElement($message);
     }
 
     /**

@@ -14,6 +14,8 @@ First add the dependencies to your `composer.json` file:
 ```json
 "require": {
     ...
+    "pagerfanta/pagerfanta": "dev-master",
+    "white-october/pagerfanta-bundle": "dev-master",
     "idci/contact-form-bundle": "dev-master"
 },
 ```
@@ -34,9 +36,19 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
+        new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
         new IDCI\Bundle\ContactFormBundle\IDCIContactFormBundle(),
     );
 }
+```
+
+As you can see, we use WhiteOctoberPagerFantaBundle to paginate list results.
+So you have to define the max_per_page parameter in your app/config/parameters.yml
+
+```yml
+parameters:
+    ...
+    max_per_page:  25
 ```
 
 Add needed routes in the `app/config/routing.yml` to use this bundle with all your forms anywhere
@@ -48,7 +60,9 @@ idci_contact_form_api:
     prefix: /contact
 ```
 
-If you wish to see a form demo in action, you can add a contact demo controller
+
+
+If you wish to see a form demo in action, you can add the contact demo controller
 
 ```yml
 idci_contact_form_demo:

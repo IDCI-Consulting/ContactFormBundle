@@ -71,14 +71,19 @@ class Manager
      *
      * @param Request $request
      */
-    public function isReceivableRequest(Request $request)
+    public function checkRequest(Request $request)
     {
-        if($this->getConfigurationParameter('https_only')) {
-            return $request->isSecure();
+        if($this->getConfigurationParameter('https_only') && !$request->isSecure()) {
+            throw new \RuntimeException("[Global configuration] Request not valid: Https only");
         }
 
         if($this->getConfigurationParameter('restricted_method') != 'ANY') {
-            return $request->getMethod() == $this->getConfigurationParameter('restricted_method');
+            if($request->getMethod() != $this->getConfigurationParameter('restricted_method')) {
+                throw new \RuntimeException(sprintf(
+                    "[Global configuration] Request not valid: Http method %s expecting",
+                    $this->getConfigurationParameter('restricted_method')
+                ));
+            }
         }
 
         return true;
@@ -89,20 +94,28 @@ class Manager
      *
      * @param Source $source
      * @param Request $request
-     * @return boolean
      */
-    public function isValidSource(Source $source, Request $request)
+    public function validSource(Source $source, Request $request)
     {
-        //if($source->get)
-        // Compare the request with source preferences
-          // domainListe
-          // ipWhiteListe
-          // ipBlackListe
-          // httpsOnly
-          // methodPostOnly
-          // methodGetOnly
+        if($source->getHttpsOnly() && !$request->isSecure()) {
+            throw new \RuntimeException("Request not valid: Https only");
+        }
 
-        return false;
+        if($source->getHttpMethod() && $source->getHttpMethod() != $request->getMethod()) {
+            throw new \RuntimeException(sprintf("Request not valid: Http method %s expecting", $source->getHttpMethod()));
+        }
+
+        if($source->getDomainList() && !in_array($request->getHttpHost(), $source->getDomainList())) {
+            throw new \RuntimeException(sprintf("Request not valid: %s is not a valid domain", $request->getHttpHost()));
+        }
+
+        if($source->getIpWhiteList() && !in_array($request->getClientIp(), $source->getIpWhiteList())) {
+            throw new \RuntimeException(sprintf("Request not valid: %s is not in the ipWhiteList", $request->getClientIp()));
+        }
+
+        if($source->getIpBlackList() && in_array($request->getClientIp(), $source->getIpBlackList())) {
+            throw new \RuntimeException(sprintf("Request not valid: %s is in the ipBlackList", $request->getClientIp()));
+        }
     }
 
     /**
@@ -125,19 +138,14 @@ class Manager
      */
     public function getRequestData(Source $source, Request $request)
     {
-        if(!$this->isReceivableRequest($request)) {
-            throw new NotReceivableRequestException();
-        }
+        $this->checkRequest($request)
+        $this->validSource($source, $request);
 
-        if(!$this->isValidSource($source, $request)) {
-            throw new NotValidSourceException();
-        }
-
-        if ($this->getConfiguration('method_get_only')) {
+        if ($this->getConfigurationParameter('restricted_method') == 'GET') {
             return $request->query->all();
         }
 
-        if ($this->getConfiguration('method_post_only')) {
+        if ($this->getConfigurationParameter('restricted_method') == 'POST') {
             return $request->request->all();
         }
 
@@ -155,7 +163,7 @@ class Manager
      */
     public function getProvider($mode, $data = null)
     {
-
+        var_dump($mode, $data); die;
     }
 
     /**

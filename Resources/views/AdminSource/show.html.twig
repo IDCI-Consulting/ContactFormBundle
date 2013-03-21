@@ -1,0 +1,92 @@
+{% extends "IDCIContactFormBundle::adminbase.html.twig" %}
+
+{% block body %}
+
+{{ parent() }}
+
+<div class="page-header">
+  <h1>{% trans %}Source{% endtrans %}</h1>
+</div>
+
+<table class="table table-bordered table-striped record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ entity.name }}</td>
+        </tr>
+        <tr>
+            <th>Isenabled</th>
+            <td>{{ entity.isEnabled }}</td>
+        </tr>
+        <tr>
+            <th>Created_at</th>
+            <td>{{ entity.createdat|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Apitoken</th>
+            <td>{{ entity.apiToken }}</td>
+        </tr>
+        <tr>
+            <th>Domainlist</th>
+            <td>
+                <ul>
+                {% for domain in entity.domainList %}
+                    <li>{{ domain }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Ipwhitelist</th>
+            <td>
+                <ul>
+                {% for whiteIp in entity.ipWhiteList %}
+                    <li>{{ whiteIp }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Ipblacklist</th>
+            <td>
+                <ul>
+                {% for blackIp in entity.ipBlackList %}
+                    <li>{{ blackIp }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Httpsonly</th>
+            <td>{{ entity.httpsOnly }}</td>
+        </tr>
+        <tr>
+            <th>HttpMethod</th>
+            <td>{{ entity.httpMethod }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a class="btn" href="{{ path('admin_source') }}">
+            {% trans %}Back to the list{% endtrans %}
+        </a>
+    </li>
+    <li>
+        <a class="btn btn-primary" href="{{ path('admin_source_edit', { 'id': entity.id }) }}">
+            {% trans %}Edit{% endtrans %}
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_source_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger">{% trans %}Delete{% endtrans %}</button>
+        </form>
+    </li>
+</ul>
+{% endblock body %}
