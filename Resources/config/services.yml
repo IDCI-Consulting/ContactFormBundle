@@ -7,3 +7,10 @@ services:
     idci_contactform.manager:
         class: IDCI\Bundle\ContactFormBundle\Service\Manager
         arguments: [@service_container]
+
+    idci_contactform.provider.mailer:
+        class: IDCI\Bundle\ContactFormBundle\Provider\MailerProvider
+        arguments: [@mailer]
+
+    idci_contactform.provider.social_sharer:
+        class: IDCI\Bundle\ContactFormBundle\Provider\SocialSharerProvider

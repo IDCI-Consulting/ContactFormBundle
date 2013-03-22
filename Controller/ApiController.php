@@ -23,11 +23,6 @@ class ApiController extends Controller
      */
     public function contactAction(Request $request, $mode, $token)
     {
-        // Check security as defined in the config.yml
-        //if ! isReceivableRequest($request)
-
-        // Check if the source is valid
-        //if ! isValidSource($token)
         // Retrieve the source
         $source = $this->get('idci_contactform.manager')->getSource($token);
 
@@ -35,11 +30,13 @@ class ApiController extends Controller
         $data = $this->get('idci_contactform.manager')->getRequestData($source, $request);
 
         // Get the right provider 
-        $provider = $this->get('idci_contactform.manager')->getProvider($mode, $data);
+        $provider = $this->get('idci_contactform.manager')->getProvider($mode);
+
         // send message
-        $provider->sendMessage();
+        $provider->sendMessage($data);
+
         // Notify the source
-        $this->get('idci_contactform.manager')->notify($source, $provider->getMessage());
+        $this->get('idci_contactform.manager')->notify($source, $request);
 
         $source = $request->getHttpHost();
         var_dump($request->isSecure());

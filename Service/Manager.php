@@ -181,7 +181,15 @@ class Manager
      */
     public function getProvider($mode, $data = null)
     {
-        var_dump($mode, $data); die;
+        $providerService = $mode;
+        if($mode == 'social_sharer') {
+            var_dump($data);die;
+        }
+
+        return $this->getContainer()->get(sprintf(
+            "idci_contactform.provider.%s",
+            $providerService
+        ));
     }
 
     /**
