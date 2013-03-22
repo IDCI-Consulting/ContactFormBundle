@@ -9,6 +9,6 @@
 
 namespace IDCI\Bundle\ContactFormBundle\Exception;
 
-class NotValidSourceException extends \Exception
+class ContactFormSourceUnavailableException extends ContactFormException
 {
 }

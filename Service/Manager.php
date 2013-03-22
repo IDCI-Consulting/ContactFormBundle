@@ -10,8 +10,10 @@
 namespace IDCI\Bundle\ContactFormBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
-use IDCI\Bundle\ContactFormBundle\Exception\NotReceivableRequestException;
-use IDCI\Bundle\ContactFormBundle\Exception\NotValidSourceException;
+use Doctrine\ORM\NoResultException;
+use IDCI\Bundle\ContactFormBundle\Exception\ContactFormSourceUnavailableException;
+use IDCI\Bundle\ContactFormBundle\Exception\ContactFormConfigurationException;
+use IDCI\Bundle\ContactFormBundle\Exception\ContactFormSourceRequestException;
 use IDCI\Bundle\ContactFormBundle\Entity\Source;
 use IDCI\Bundle\ContactFormBundle\Entity\Message;
 
@@ -70,17 +72,19 @@ class Manager
      * Check the validity of the request as defined in the configuration
      *
      * @param Request $request
+     * @throw ContactFormConfigurationException
+     * @return boolean
      */
-    public function checkRequest(Request $request)
+    public function checkConfiguration(Request $request)
     {
         if($this->getConfigurationParameter('https_only') && !$request->isSecure()) {
-            throw new \RuntimeException("[Global configuration] Request not valid: Https only");
+            throw new ContactFormConfigurationException("Request not valid: Https only");
         }
 
         if($this->getConfigurationParameter('restricted_method') != 'ANY') {
             if($request->getMethod() != $this->getConfigurationParameter('restricted_method')) {
-                throw new \RuntimeException(sprintf(
-                    "[Global configuration] Request not valid: Http method %s expecting",
+                throw new ContactFormConfigurationException(sprintf(
+                    "Request not valid: Http method %s expecting",
                     $this->getConfigurationParameter('restricted_method')
                 ));
             }
@@ -94,28 +98,32 @@ class Manager
      *
      * @param Source $source
      * @param Request $request
+     * @throw ContactFormRequestException
+     * @return boolean
      */
-    public function validSource(Source $source, Request $request)
+    public function checkSourceRequest(Source $source, Request $request)
     {
         if($source->getHttpsOnly() && !$request->isSecure()) {
-            throw new \RuntimeException("Request not valid: Https only");
+            throw new ContactFormSourceRequestException("Request not valid: Https only");
         }
 
         if($source->getHttpMethod() && $source->getHttpMethod() != $request->getMethod()) {
-            throw new \RuntimeException(sprintf("Request not valid: Http method %s expecting", $source->getHttpMethod()));
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: Http method %s expecting", $source->getHttpMethod()));
         }
 
         if($source->getDomainList() && !in_array($request->getHttpHost(), $source->getDomainList())) {
-            throw new \RuntimeException(sprintf("Request not valid: %s is not a valid domain", $request->getHttpHost()));
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is not a valid domain", $request->getHttpHost()));
         }
 
         if($source->getIpWhiteList() && !in_array($request->getClientIp(), $source->getIpWhiteList())) {
-            throw new \RuntimeException(sprintf("Request not valid: %s is not in the ipWhiteList", $request->getClientIp()));
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is not in the ipWhiteList", $request->getClientIp()));
         }
 
         if($source->getIpBlackList() && in_array($request->getClientIp(), $source->getIpBlackList())) {
-            throw new \RuntimeException(sprintf("Request not valid: %s is in the ipBlackList", $request->getClientIp()));
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is in the ipBlackList", $request->getClientIp()));
         }
+
+        return true;
     }
 
     /**
@@ -126,7 +134,17 @@ class Manager
      */
     public function getSource($token)
     {
-        return $this->getEntityManager()->getRepository('IDCIContactFormBundle:Source')->getSource($token);
+        try {
+            $source = $this
+                ->getEntityManager()
+                ->getRepository('IDCIContactFormBundle:Source')
+                ->getSource($token)
+            ;
+        } catch (NoResultException $e) {
+            throw new ContactFormSourceUnavailableException();
+        }
+
+        return $source;
     }
 
     /**
@@ -138,8 +156,8 @@ class Manager
      */
     public function getRequestData(Source $source, Request $request)
     {
-        $this->checkRequest($request)
-        $this->validSource($source, $request);
+        $this->checkConfiguration($request);
+        $this->checkSourceRequest($source, $request);
 
         if ($this->getConfigurationParameter('restricted_method') == 'GET') {
             return $request->query->all();

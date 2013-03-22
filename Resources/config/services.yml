@@ -1,4 +1,9 @@
 services:
+    idci_contactform.type.text_coma_separated_values:
+        class: IDCI\Bundle\ContactFormBundle\Form\Type\TextComaSeparatedValuesType
+        tags:
+            - { name: form.type, alias: text_coma_separated_values }
+
     idci_contactform.manager:
         class: IDCI\Bundle\ContactFormBundle\Service\Manager
         arguments: [@service_container]

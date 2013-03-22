@@ -12,11 +12,11 @@ class SourceType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isEnabled')
+            ->add('isEnabled', null, array('required' => false))
             ->add('apiToken')
-            ->add('domainList')
-            ->add('ipWhiteList')
-            ->add('ipBlackList')
+            ->add('domainList', 'text_coma_separated_values', array('required' => false))
+            ->add('ipWhiteList', 'text_coma_separated_values', array('required' => false))
+            ->add('ipBlackList', 'text_coma_separated_values', array('required' => false))
             ->add('httpsOnly', null, array('required' => false))
             ->add('httpMethod')
         ;

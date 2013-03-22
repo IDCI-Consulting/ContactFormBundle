@@ -9,6 +9,6 @@
 
 namespace IDCI\Bundle\ContactFormBundle\Exception;
 
-class NotReceivableRequestException extends \Exception
+class ContactFormSourceRequestException extends ContactFormException
 {
 }
