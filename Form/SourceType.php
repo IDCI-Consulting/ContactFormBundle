@@ -5,6 +5,7 @@ namespace IDCI\Bundle\ContactFormBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use IDCI\Bundle\ContactFormBundle\Entity\Source;
 
 class SourceType extends AbstractType
 {
@@ -13,12 +14,15 @@ class SourceType extends AbstractType
         $builder
             ->add('name')
             ->add('isEnabled', null, array('required' => false))
-            ->add('apiToken')
+            ->add('apiToken', null, array('required' => false))
             ->add('domainList', 'text_coma_separated_values', array('required' => false))
             ->add('ipWhiteList', 'text_coma_separated_values', array('required' => false))
             ->add('ipBlackList', 'text_coma_separated_values', array('required' => false))
             ->add('httpsOnly', null, array('required' => false))
-            ->add('httpMethod')
+            ->add('httpMethod', 'choice', array(
+                'choices' => Source::getHttpMethods(),
+                'required' => false,
+            ))
         ;
     }
 

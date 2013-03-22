@@ -18,6 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
+    const PROVIDER_MAILER  = "mailer";
+    const HTTP_METHOD_POST = "POST";
+    const HTTP_METHOD_PUT  = "PUT";
+
     /**
      * @var integer
      *
@@ -52,28 +56,28 @@ class Message
     /**
      * @var json_array
      *
-     * @ORM\Column(name="data", type="json_array")
+     * @ORM\Column(name="data", type="json_array", nullable=true)
      */
     private $data;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ip", type="string")
+     * @ORM\Column(name="ip", type="string", nullable=true)
      */
     private $ip;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="user_agent", type="string")
+     * @ORM\Column(name="user_agent", type="string", nullable=true)
      */
     private $userAgent;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="referer", type="string")
+     * @ORM\Column(name="referer", type="string", nullable=true)
      */
     private $referer;
 

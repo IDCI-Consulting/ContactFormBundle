@@ -18,6 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Source
 {
+    const HTTP_METHOD_GET  = "GET";
+    const HTTP_METHOD_POST = "POST";
+    const HTTP_METHOD_PUT  = "PUT";
+
     /**
      * @var integer
      *
@@ -95,6 +99,15 @@ class Source
      */
     protected $messages;
 
+    public static function getHttpMethods()
+    {
+        return array(
+            self::HTTP_METHOD_GET  => self::HTTP_METHOD_GET,
+            self::HTTP_METHOD_POST => self::HTTP_METHOD_POST,
+            self::HTTP_METHOD_PUT  => self::HTTP_METHOD_PUT,
+        );
+    }
+
     public static function generateToken()
     {
         $now = new \DateTime('now');
@@ -109,6 +122,14 @@ class Source
     {
         $this->setCreatedAt(new \DateTime('now'));
         $this->setApiToken(self::generateToken());
+    }
+
+    /**
+     * toString
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**

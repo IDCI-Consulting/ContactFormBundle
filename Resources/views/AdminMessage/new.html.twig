@@ -5,10 +5,10 @@
 {{ parent() }}
 
 <div class="page-header">
-  <h1>{% trans %}Source creation{% endtrans %}</h1>
+  <h1>{% trans %}Message creation{% endtrans %}</h1>
 </div>
 
-<form action="{{ path('admin_contact_source_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('admin_contact_message_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit" class="btn btn-primary">{% trans %}Create{% endtrans %}</button>
@@ -17,7 +17,7 @@
 
 <ul class="record_actions">
     <li>
-        <a class="btn" href="{{ path('admin_contact_source') }}">
+        <a class="btn" href="{{ path('admin_contact_message') }}">
             {% trans %}Back to the list{% endtrans %}
         </a>
     </li>

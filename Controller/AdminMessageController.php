@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use IDCI\Bundle\ContactFormBundle\Entity\Source;
-use IDCI\Bundle\ContactFormBundle\Form\SourceType;
+use IDCI\Bundle\ContactFormBundle\Entity\Message;
+use IDCI\Bundle\ContactFormBundle\Form\MessageType;
 
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
@@ -16,22 +16,22 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Source controller.
+ * Message controller.
  *
- * @Route("/contact/source")
+ * @Route("/contact/message")
  */
-class AdminSourceController extends Controller
+class AdminMessageController extends Controller
 {
     /**
-     * Lists all Source entities.
+     * Lists all Message entities.
      *
-     * @Route("/", name="admin_contact_source")
+     * @Route("/", name="admin_contact_message")
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('IDCIContactFormBundle:Source')->findAll();
+        $entities = $em->getRepository('IDCIContactFormBundle:Message')->findAll();
 
         $adapter = new ArrayAdapter($entities);
         $pager = new PagerFanta($adapter);
@@ -49,18 +49,18 @@ class AdminSourceController extends Controller
     }
 
     /**
-     * Finds and displays a Source entity.
+     * Finds and displays a Message entity.
      *
-     * @Route("/{id}/show", name="admin_contact_source_show")
+     * @Route("/{id}/show", name="admin_contact_message_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('IDCIContactFormBundle:Source')->find($id);
+        $entity = $em->getRepository('IDCIContactFormBundle:Message')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Source entity.');
+            throw $this->createNotFoundException('Unable to find Message entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -72,15 +72,15 @@ class AdminSourceController extends Controller
     }
 
     /**
-     * Displays a form to create a new Source entity.
+     * Displays a form to create a new Message entity.
      *
-     * @Route("/new", name="admin_contact_source_new")
+     * @Route("/new", name="admin_contact_message_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Source();
-        $form   = $this->createForm(new SourceType(), $entity);
+        $entity = new Message();
+        $form   = $this->createForm(new MessageType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -89,16 +89,16 @@ class AdminSourceController extends Controller
     }
 
     /**
-     * Creates a new Source entity.
+     * Creates a new Message entity.
      *
-     * @Route("/create", name="admin_contact_source_create")
+     * @Route("/create", name="admin_contact_message_create")
      * @Method("POST")
-     * @Template("IDCIContactFormBundle:Source:new.html.twig")
+     * @Template("IDCIContactFormBundle:AdminMessage:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity  = new Source();
-        $form = $this->createForm(new SourceType(), $entity);
+        $entity  = new Message();
+        $form = $this->createForm(new MessageType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -109,12 +109,12 @@ class AdminSourceController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'info',
                 $this->get('translator')->trans('%entity%[%id%] has been created', array(
-                    '%entity%' => 'Source',
+                    '%entity%' => 'Message',
                     '%id%'     => $entity->getId()
                 ))
             );
 
-            return $this->redirect($this->generateUrl('admin_contact_source_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_contact_message_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -124,21 +124,21 @@ class AdminSourceController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Source entity.
+     * Displays a form to edit an existing Message entity.
      *
-     * @Route("/{id}/edit", name="admin_contact_source_edit")
+     * @Route("/{id}/edit", name="admin_contact_message_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('IDCIContactFormBundle:Source')->find($id);
+        $entity = $em->getRepository('IDCIContactFormBundle:Message')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Source entity.');
+            throw $this->createNotFoundException('Unable to find Message entity.');
         }
 
-        $editForm = $this->createForm(new SourceType(), $entity);
+        $editForm = $this->createForm(new MessageType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -149,23 +149,23 @@ class AdminSourceController extends Controller
     }
 
     /**
-     * Edits an existing Source entity.
+     * Edits an existing Message entity.
      *
-     * @Route("/{id}/update", name="admin_contact_source_update")
+     * @Route("/{id}/update", name="admin_contact_message_update")
      * @Method("POST")
-     * @Template("IDCIContactFormBundle:Source:edit.html.twig")
+     * @Template("IDCIContactFormBundle:AdminMessage:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('IDCIContactFormBundle:Source')->find($id);
+        $entity = $em->getRepository('IDCIContactFormBundle:Message')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Source entity.');
+            throw $this->createNotFoundException('Unable to find Message entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SourceType(), $entity);
+        $editForm = $this->createForm(new MessageType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -175,12 +175,12 @@ class AdminSourceController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'info',
                 $this->get('translator')->trans('%entity%[%id%] has been updated', array(
-                    '%entity%' => 'Source',
+                    '%entity%' => 'Message',
                     '%id%'     => $entity->getId()
                 ))
             );
 
-            return $this->redirect($this->generateUrl('admin_contact_source_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_contact_message_edit', array('id' => $id)));
         }
 
         return array(
@@ -191,9 +191,9 @@ class AdminSourceController extends Controller
     }
 
     /**
-     * Deletes a Source entity.
+     * Deletes a Message entity.
      *
-     * @Route("/{id}/delete", name="admin_contact_source_delete")
+     * @Route("/{id}/delete", name="admin_contact_message_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
@@ -203,10 +203,10 @@ class AdminSourceController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('IDCIContactFormBundle:Source')->find($id);
+            $entity = $em->getRepository('IDCIContactFormBundle:Message')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Source entity.');
+                throw $this->createNotFoundException('Unable to find Message entity.');
             }
 
             $em->remove($entity);
@@ -215,27 +215,27 @@ class AdminSourceController extends Controller
             $this->get('session')->getFlashBag()->add(
                 'info',
                 $this->get('translator')->trans('%entity%[%id%] has been deleted', array(
-                    '%entity%' => 'Source',
+                    '%entity%' => 'Message',
                     '%id%'     => $id
                 ))
             );
         }
 
-        return $this->redirect($this->generateUrl('admin_contact_source'));
+        return $this->redirect($this->generateUrl('admin_contact_message'));
     }
 
     /**
-     * Display Source deleteForm.
+     * Display Message deleteForm.
      *
      * @Template()
      */
     public function deleteFormAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('IDCIContactFormBundle:Source')->find($id);
+        $entity = $em->getRepository('IDCIContactFormBundle:Message')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Source entity.');
+            throw $this->createNotFoundException('Unable to find Message entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
