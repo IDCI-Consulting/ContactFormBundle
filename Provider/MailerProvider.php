@@ -9,13 +9,18 @@
 
 namespace IDCI\Bundle\ContactFormBundle\Provider;
 
+use IDCI\Bundle\ContactFormBundle\Entity\Source;
+
 class MailerProvider extends AbstractProvider
 {
     protected $mailer;
 
-    public function __construct($mailer)
+    protected $templating;
+
+    public function __construct($mailer, $templating)
     {
         $this->mailer = $mailer;
+        $this->templating = $templating;
     }
 
     /**
@@ -28,8 +33,37 @@ class MailerProvider extends AbstractProvider
         return $this->mailer;
     }
 
-    public function sendMessage($data)
+    /**
+     * Get templating
+     *
+     * @return Templating $templating
+     */
+    public function getTemplating()
     {
-        var_dump($data);die;
+        return $this->templating;
+    }
+
+    public function sendMessage(Source $source, $data)
+    {
+        var_dump($this->getTemplating()->render(
+                    'IDCIContactFormBundle:ProviderMailer:body.txt.twig',
+                    array('data' => $data)
+                ));die;
+        $message = \Swift_Message::newInstance()
+            ->setSubject(sprintf(
+                '[Contact Form - %s]',
+                $source
+            ))
+            ->setFrom($source->getMail())
+            ->setTo('recipient@example.com')
+            ->setBody(
+                $this->renderView(
+                    'IDCIConstactFormBundle:ProviderMailer:body.txt.twig',
+                    array('data' => $data)
+                )
+            )
+        ;
+
+        $this->getMailer()->send($message);
     }
 }

@@ -39,6 +39,13 @@ class Source
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string")
+     */
+    private $mail;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="is_enabled", type="boolean", options={"default":1})
@@ -46,11 +53,11 @@ class Source
     private $isEnabled;
 
     /**
-     * @var datetime $created_at
+     * @var datetime $createdAt
      * 
      * @ORM\Column(name="created_at", type="datetime")
      */
-    protected $created_at;
+    protected $createdAt;
 
     /**
      * @var string
@@ -112,7 +119,11 @@ class Source
     {
         $now = new \DateTime('now');
 
-        return md5($now->format('l d F (H:i:s)'));
+        return md5(sprintf('%s %s %s',
+            $this->getName(),
+            $this->getMail(),
+            $now->format('l d F (H:i:s)')
+        ));
     }
 
     /**
@@ -153,6 +164,29 @@ class Source
     }
 
     /**
+     * Set mail
+     *
+     * @param string $mail
+     * @return Source
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string 
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -161,7 +195,7 @@ class Source
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
@@ -184,7 +218,7 @@ class Source
     public function setIsEnabled($isEnabled)
     {
         $this->isEnabled = $isEnabled;
-    
+
         return $this;
     }
 
@@ -199,26 +233,26 @@ class Source
     }
 
     /**
-     * Set created_at
+     * Set createdAt
      *
      * @param \DateTime $createdAt
      * @return Source
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
-    
+        $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
      * @return \DateTime 
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
@@ -230,7 +264,7 @@ class Source
     public function setApiToken($apiToken)
     {
         $this->apiToken = $apiToken;
-    
+
         return $this;
     }
 
@@ -253,7 +287,7 @@ class Source
     public function setDomainList($domainList)
     {
         $this->domainList = $domainList;
-    
+
         return $this;
     }
 
@@ -276,7 +310,7 @@ class Source
     public function setIpWhiteList($ipWhiteList)
     {
         $this->ipWhiteList = $ipWhiteList;
-    
+
         return $this;
     }
 
@@ -299,7 +333,7 @@ class Source
     public function setIpBlackList($ipBlackList)
     {
         $this->ipBlackList = $ipBlackList;
-    
+
         return $this;
     }
 
@@ -322,7 +356,7 @@ class Source
     public function setHttpsOnly($httpsOnly)
     {
         $this->httpsOnly = $httpsOnly;
-    
+
         return $this;
     }
 
@@ -345,7 +379,7 @@ class Source
     public function setHttpMethod($httpMethod)
     {
         $this->httpMethod = $httpMethod;
-    
+
         return $this;
     }
 
@@ -368,7 +402,7 @@ class Source
     public function addMessage(\IDCI\Bundle\ContactFormBundle\Entity\Message $message)
     {
         $this->messages[] = $message;
-    
+
         return $this;
     }
 

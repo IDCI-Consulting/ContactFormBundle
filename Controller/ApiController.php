@@ -26,14 +26,14 @@ class ApiController extends Controller
         // Retrieve the source
         $source = $this->get('idci_contactform.manager')->getSource($token);
 
-        // Retreive request data as defined in the config.yml
-        $data = $this->get('idci_contactform.manager')->getRequestData($source, $request);
-
         // Get the right provider 
         $provider = $this->get('idci_contactform.manager')->getProvider($mode);
 
+        // transform request data following to the source
+        $data = $this->get('idci_contactform.manager')->transformData($source, $request);
+
         // send message
-        $provider->sendMessage($data);
+        $provider->sendMessage($source, $data);
 
         // Notify the source
         $this->get('idci_contactform.manager')->notify($source, $request);

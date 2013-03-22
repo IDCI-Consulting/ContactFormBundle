@@ -57,10 +57,22 @@ Add needed routes in the `app/config/routing.yml` to use this bundle with all yo
 idci_contact_form_api:
     resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/ApiController.php"
     type:     annotation
-    prefix: /contact
+    prefix:   /contact
 ```
 
+If you wish access to an administration space, add this following controllers:
 
+```yml
+idci_contact_form_admin_source:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/AdminSourceController.php"
+    type:     annotation
+    prefix:   /admin
+
+idci_contact_form_admin_message:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/AdminMessageController.php"
+    type:     annotation
+    prefix:   /admin
+```
 
 If you wish to see a form demo in action, you can add the contact demo controller
 
@@ -68,7 +80,16 @@ If you wish to see a form demo in action, you can add the contact demo controlle
 idci_contact_form_demo:
     resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/DemoController.php"
     type:     annotation
-    prefix: /contact-demo
+    prefix:   /contact-demo
+```
+
+Furthermore you can simply declare one route, which will include all controllers
+
+```yml
+idci_contact_form:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller"
+    type:     annotation
+    prefix:   /contact-form
 ```
 
 Now the Bundle is installed.

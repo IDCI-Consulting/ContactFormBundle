@@ -9,9 +9,11 @@
 
 namespace IDCI\Bundle\ContactFormBundle\Provider;
 
+use IDCI\Bundle\ContactFormBundle\Entity\Source;
+
 class SocialSharerProvider extends AbstractProvider
 {
-    public function sendMessage($data)
+    public function sendMessage(Source $source, $data)
     {
         var_dump($data);die;
     }

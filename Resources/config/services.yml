@@ -10,7 +10,7 @@ services:
 
     idci_contactform.provider.mailer:
         class: IDCI\Bundle\ContactFormBundle\Provider\MailerProvider
-        arguments: [@mailer]
+        arguments: [@mailer, @templating]
 
     idci_contactform.provider.social_sharer:
         class: IDCI\Bundle\ContactFormBundle\Provider\SocialSharerProvider

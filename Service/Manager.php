@@ -16,6 +16,7 @@ use IDCI\Bundle\ContactFormBundle\Exception\ContactFormConfigurationException;
 use IDCI\Bundle\ContactFormBundle\Exception\ContactFormSourceRequestException;
 use IDCI\Bundle\ContactFormBundle\Entity\Source;
 use IDCI\Bundle\ContactFormBundle\Entity\Message;
+use IDCI\Bundle\ContactFormBundle\Form\DataRequestTransformer\BaseDataRequestTransformer;
 
 class Manager
 {
@@ -174,21 +175,32 @@ class Manager
     }
 
     /**
+     * Transform data from the request as defined in the source
+     *
+     * @param Source $source
+     * @param Request $request
+     * @return array
+     */
+    public function transformData(Source $source, Request $request)
+    {
+        $data = $this->getRequestData($source, $request);
+
+        // TODO: defined source transformers and use them as service
+        $transformer = new BaseDataRequestTransformer();
+
+        return $transformer->transform($data);
+    }
+
+    /**
      * Retrieve a provider based on a given mode
      *
-     * @param string $mode
-     * @param array $data
+     * @param string $provider_service
      */
-    public function getProvider($mode, $data = null)
+    public function getProvider($provider_service)
     {
-        $providerService = $mode;
-        if($mode == 'social_sharer') {
-            var_dump($data);die;
-        }
-
         return $this->getContainer()->get(sprintf(
             "idci_contactform.provider.%s",
-            $providerService
+            $provider_service
         ));
     }
 

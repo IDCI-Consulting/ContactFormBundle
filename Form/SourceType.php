@@ -13,6 +13,7 @@ class SourceType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('mail', 'email')
             ->add('isEnabled', null, array('required' => false))
             ->add('apiToken', null, array('required' => false))
             ->add('domainList', 'text_coma_separated_values', array('required' => false))

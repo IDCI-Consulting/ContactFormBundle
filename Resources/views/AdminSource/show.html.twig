@@ -19,19 +19,23 @@
             <td>{{ entity.name }}</td>
         </tr>
         <tr>
-            <th>Isenabled</th>
+            <th>Mail</th>
+            <td>{{ entity.mail }}</td>
+        </tr>
+        <tr>
+            <th>IsEnabled</th>
             <td>{{ entity.isEnabled }}</td>
         </tr>
         <tr>
-            <th>Created_at</th>
-            <td>{{ entity.createdat|date('Y-m-d H:i:s') }}</td>
+            <th>CreatedAt</th>
+            <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
             <th>Apitoken</th>
             <td>{{ entity.apiToken }}</td>
         </tr>
         <tr>
-            <th>Domainlist</th>
+            <th>DomainList</th>
             <td>
                 <ul>
                 {% for domain in entity.domainList %}
@@ -41,7 +45,7 @@
             </td>
         </tr>
         <tr>
-            <th>Ipwhitelist</th>
+            <th>IpWhiteList</th>
             <td>
                 <ul>
                 {% for whiteIp in entity.ipWhiteList %}
@@ -51,7 +55,7 @@
             </td>
         </tr>
         <tr>
-            <th>Ipblacklist</th>
+            <th>IpBlackList</th>
             <td>
                 <ul>
                 {% for blackIp in entity.ipBlackList %}
@@ -61,7 +65,7 @@
             </td>
         </tr>
         <tr>
-            <th>Httpsonly</th>
+            <th>HttpsOnly</th>
             <td>{{ entity.httpsOnly }}</td>
         </tr>
         <tr>
