@@ -25,4 +25,24 @@ class SourceProvider
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * source
+     *
+     * @ORM\ManyToOne(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\Source", inversedBy="sourceProviders", cascade={"persist"})
+     * @ORM\JoinColumn(name="source_id", referencedColumnName="id", onDelete="Cascade")
+     */
+    protected $source;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="provider", type="string")
+     */
+    private $provider;
+
+    /**
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\SourceProviderData", mappedBy="sourceProvider")
+     */
+    protected $sourceProviderData;
 }

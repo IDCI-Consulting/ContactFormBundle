@@ -106,6 +106,11 @@ class Source
      */
     protected $messages;
 
+    /**
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\SourceProvider", mappedBy="source")
+     */
+    protected $sourceProviders;
+
     public static function getHttpMethods()
     {
         return array(
