@@ -18,10 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
-    const PROVIDER_MAILER  = "mailer";
-    const HTTP_METHOD_POST = "POST";
-    const HTTP_METHOD_PUT  = "PUT";
-
     /**
      * @var integer
      *

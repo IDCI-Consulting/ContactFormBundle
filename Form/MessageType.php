@@ -12,7 +12,7 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('source')
-            ->add('provider')
+            ->add('provider', 'provider_choice')
             ->add('data')
             ->add('ip')
             ->add('userAgent')

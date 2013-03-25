@@ -1,8 +1,17 @@
 services:
+    idci_contactform.provider_list:
+        class: IDCI\Bundle\ContactFormBundle\DependencyInjection\ProviderList
+
     idci_contactform.type.text_coma_separated_values:
         class: IDCI\Bundle\ContactFormBundle\Form\Type\TextComaSeparatedValuesType
         tags:
             - { name: form.type, alias: text_coma_separated_values }
+
+    idci_contactform.type.provider_choice:
+        class: IDCI\Bundle\ContactFormBundle\Form\Type\ProviderChoiceType
+        arguments: [@idci_contactform.provider_list]
+        tags:
+            - { name: form.type, alias: provider_choice }
 
     idci_contactform.manager:
         class: IDCI\Bundle\ContactFormBundle\Service\Manager
@@ -11,6 +20,10 @@ services:
     idci_contactform.provider.mailer:
         class: IDCI\Bundle\ContactFormBundle\Provider\MailerProvider
         arguments: [@mailer, @templating]
+        tags:
+            - { name: idci_contactform.provider }
 
     idci_contactform.provider.social_sharer:
         class: IDCI\Bundle\ContactFormBundle\Provider\SocialSharerProvider
+        tags:
+            - { name: idci_contactform.provider }
