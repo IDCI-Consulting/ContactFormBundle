@@ -2,6 +2,9 @@ services:
     idci_contactform.provider_list:
         class: IDCI\Bundle\ContactFormBundle\DependencyInjection\ProviderList
 
+    idci_contactform.data_request_transformer_list:
+        class: IDCI\Bundle\ContactFormBundle\DependencyInjection\DataRequestTransformerList
+
     idci_contactform.type.text_coma_separated_values:
         class: IDCI\Bundle\ContactFormBundle\Form\Type\TextComaSeparatedValuesType
         tags:
@@ -13,9 +16,18 @@ services:
         tags:
             - { name: form.type, alias: provider_choice }
 
+    idci_contactform.type.data_request_transformer_choice:
+        class: IDCI\Bundle\ContactFormBundle\Form\Type\DataRequestTransformerChoiceType
+        arguments: [@idci_contactform.data_request_transformer_list]
+        tags:
+            - { name: form.type, alias: data_request_transformer_choice }
+
     idci_contactform.manager:
         class: IDCI\Bundle\ContactFormBundle\Service\Manager
         arguments: [@service_container]
+
+
+    # Providers
 
     idci_contactform.provider.mailer:
         class: IDCI\Bundle\ContactFormBundle\Provider\MailerProvider
@@ -27,3 +39,16 @@ services:
         class: IDCI\Bundle\ContactFormBundle\Provider\SocialSharerProvider
         tags:
             - { name: idci_contactform.provider }
+
+
+    # DataRequestTransformers
+
+    idci_contactform.data_request_transformer.basic:
+        class: IDCI\Bundle\ContactFormBundle\Form\DataRequestTransformer\BasicDataRequestTransformer
+        tags:
+            - { name: idci_contactform.data_request_transformer }
+
+    idci_contactform.data_request_transformer.aggregate:
+        class: IDCI\Bundle\ContactFormBundle\Form\DataRequestTransformer\AggregateDataRequestTransformer
+        tags:
+            - { name: idci_contactform.data_request_transformer }

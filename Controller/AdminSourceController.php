@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use IDCI\Bundle\ContactFormBundle\Entity\Source;
 use IDCI\Bundle\ContactFormBundle\Form\SourceType;
+use IDCI\Bundle\ContactFormBundle\Entity\SourceProvider;
+use IDCI\Bundle\ContactFormBundle\Form\SourceProviderType;
 
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
@@ -254,4 +256,127 @@ class AdminSourceController extends Controller
         ;
     }
 
+    /**
+     * Displays a form to create a new SourceProvider entity.
+     *
+     * @Route("/provider/{source_id}/new", name="admin_contact_source_provider_new")
+     * @Template()
+     */
+    public function newProviderAction($source_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $source = $em->getRepository('IDCIContactFormBundle:Source')->find($source_id);
+
+        if (!$source) {
+            throw $this->createNotFoundException('Unable to find Source entity.');
+        }
+
+        $entity = new SourceProvider();
+        $entity->setSource($source);
+        $form = $this->createForm(new SourceProviderType(), $entity);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Creates a new SourceProvider entity.
+     *
+     * @Route("/provider/{source_id}/create", name="admin_contact_source_provider_create")
+     * @Method("POST")
+     * @Template("IDCIContactFormBundle:Source:newProvider.html.twig")
+     */
+    public function createProviderAction(Request $request, $source_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $source = $em->getRepository('IDCIContactFormBundle:Source')->find($source_id);
+
+        if (!$source) {
+            throw $this->createNotFoundException('Unable to find Source entity.');
+        }
+
+        $entity = new SourceProvider();
+        $entity->setSource($source);
+        $form = $this->createForm(new SourceProviderType(), $entity);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                $this->get('translator')->trans('%entity%[%id%] has been created', array(
+                    '%entity%' => 'SourceProvider',
+                    '%id%'     => $entity->getId()
+                ))
+            );
+
+            return $this->redirect($this->generateUrl('admin_contact_source_show', array('id' => $source_id)));
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Deletes a SourceProvider entity.
+     *
+     * @Route("/provider/{id}/delete", name="admin_contact_source_provider_delete")
+     * @Method("POST")
+     */
+    public function deleteProviderAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('IDCIContactFormBundle:SourceProvider')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find SourceProvider entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+            
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                $this->get('translator')->trans('%entity%[%id%] has been deleted', array(
+                    '%entity%' => 'SourceProvider',
+                    '%id%'     => $id
+                ))
+            );
+        }
+
+        return $this->redirect($this->generateUrl('admin_contact_source'));
+    }
+
+    /**
+     * Display SourceProvider deleteForm.
+     *
+     * @Template()
+     */
+    public function deleteProviderFormAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('IDCIContactFormBundle:SourceProvider')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SourceProvider entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
 }

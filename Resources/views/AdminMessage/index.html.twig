@@ -52,10 +52,10 @@
             <td>{{ entity.userAgent }}</td>
             <td>{{ entity.referer }}</td>
             <td>
-                <a class="btn btn-block" href="{{ path('admin_contact_message_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+                <a class="btn" href="{{ path('admin_contact_message_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
             </td>
             <td>
-                <a class="btn btn-block btn-primary" href="{{ path('admin_contact_message_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
+                <a class="btn btn-primary" href="{{ path('admin_contact_message_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
             </td>
             <td>
                 {% render 'IDCIContactFormBundle:AdminMessage:deleteForm' with { 'id': entity.id } %}

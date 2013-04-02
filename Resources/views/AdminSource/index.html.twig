@@ -34,6 +34,7 @@
             <th>IpBlackList</th>
             <th>HttpsOnly</th>
             <th>HttpMethod</th>
+            <th>Providers</th>
             <th colspan="3">{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
@@ -70,10 +71,20 @@
             <td>{{ entity.httpsOnly }}</td>
             <td>{{ entity.httpMethod }}</td>
             <td>
-                <a class="btn btn-block" href="{{ path('admin_contact_source_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+                <ul>
+                {% for provider in entity.sourceProviders %}
+                    <li>{% include 'IDCIContactFormBundle:AdminSource:provider.html.twig' with { 'provider': provider } %}</li>
+                {% endfor %}
+                </ul>
             </td>
             <td>
-                <a class="btn btn-block btn-primary" href="{{ path('admin_contact_source_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
+                <a class="btn btn-success" href="{{ path('admin_contact_source_provider_new', { 'source_id': entity.id }) }}">{% trans %}add provider{% endtrans %}</a>
+            </td>
+            <td>
+                <a class="btn" href="{{ path('admin_contact_source_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+            </td>
+            <td>
+                <a class="btn btn-primary" href="{{ path('admin_contact_source_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
             </td>
             <td>
                 {% render 'IDCIContactFormBundle:AdminSource:deleteForm' with { 'id': entity.id } %}

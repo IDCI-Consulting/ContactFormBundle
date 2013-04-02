@@ -9,7 +9,7 @@
 
 namespace IDCI\Bundle\ContactFormBundle\Form\DataRequestTransformer;
 
-class BaseDataRequestTransformer implements DataRequestTransformerInterface
+class BasicDataRequestTransformer implements DataRequestTransformerInterface
 {
     public function __construct()
     {

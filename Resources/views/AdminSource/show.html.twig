@@ -72,6 +72,16 @@
             <th>HttpMethod</th>
             <td>{{ entity.httpMethod }}</td>
         </tr>
+        <tr>
+            <th>Providers</th>
+            <td>
+                <ul>
+                {% for provider in entity.sourceProviders %}
+                    <li>{% include 'IDCIContactFormBundle:AdminSource:provider.html.twig' with { 'provider': provider } %}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
     </tbody>
 </table>
 
@@ -79,6 +89,11 @@
     <li>
         <a class="btn" href="{{ path('admin_contact_source') }}">
             {% trans %}Back to the list{% endtrans %}
+        </a>
+    </li>
+    <li>
+        <a class="btn btn-success" href="{{ path('admin_contact_source_provider_new', { 'source_id': entity.id }) }}">
+            {% trans %}add provider{% endtrans %}
         </a>
     </li>
     <li>

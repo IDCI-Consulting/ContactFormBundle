@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use IDCI\Bundle\ContactFormBundle\DependencyInjection\Compiler\ProviderCompilerPass;
+use IDCI\Bundle\ContactFormBundle\DependencyInjection\Compiler\DataRequestTransformerCompilerPass;
 
 class IDCIContactFormBundle extends Bundle
 {
@@ -21,5 +22,6 @@ class IDCIContactFormBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ProviderCompilerPass());
+        $container->addCompilerPass(new DataRequestTransformerCompilerPass());
     }
 }

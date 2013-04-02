@@ -45,6 +45,7 @@ class MailerProvider extends AbstractProvider
 
     public function sendMessage(Source $source, $data)
     {
+        var_dump($data); die;
         var_dump($this->getTemplating()->render(
                     'IDCIContactFormBundle:ProviderMailer:body.txt.twig',
                     array('data' => $data)

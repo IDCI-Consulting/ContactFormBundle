@@ -42,7 +42,155 @@ class SourceProvider
     private $provider;
 
     /**
-     * @ORM\OneToMany(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\SourceProviderData", mappedBy="sourceProvider")
+     * @var string
+     *
+     * @ORM\Column(name="data_request_transformer", type="string")
      */
-    protected $sourceProviderData;
+    private $dataRequestTransformer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\SourceProviderParameter", mappedBy="sourceProvider")
+     */
+    protected $sourceProviderParameters;
+
+    /**
+     * toString
+     */
+    public function __toString()
+    {
+        return sprintf('%s', $this->getProvider());
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sourceProviderParameters = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set provider
+     *
+     * @param string $provider
+     * @return SourceProvider
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+    
+        return $this;
+    }
+
+    /**
+     * Get provider
+     *
+     * @return string 
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * Set data request transformer
+     *
+     * @param string $data_request_transformer
+     * @return SourceProvider
+     */
+    public function setDataRequestTransformer($data_request_transformer)
+    {
+        $this->dataRequestTransformer = $data_request_transformer;
+    
+        return $this;
+    }
+
+    /**
+     * Get data request transformer
+     *
+     * @return string 
+     */
+    public function getDataRequestTransformer()
+    {
+        return $this->dataRequestTransformer;
+    }
+
+    /**
+     * Set source
+     *
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\Source $source
+     * @return SourceProvider
+     */
+    public function setSource(\IDCI\Bundle\ContactFormBundle\Entity\Source $source = null)
+    {
+        $this->source = $source;
+    
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return \IDCI\Bundle\ContactFormBundle\Entity\Source 
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Add sourceProviderParameter
+     *
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\SourceProviderParameter $sourceProviderParameter
+     * @return SourceProvider
+     */
+    public function addSourceProviderParameter(\IDCI\Bundle\ContactFormBundle\Entity\SourceProviderParameter $sourceProviderParameter)
+    {
+        $this->sourceProviderParameters[] = $sourceProviderParameter;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sourceProviderParameter
+     *
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\SourceProviderParameter $sourceProviderParameter
+     */
+    public function removeSourceProviderParameter(\IDCI\Bundle\ContactFormBundle\Entity\SourceProviderParameter $sourceProviderParameter)
+    {
+        $this->sourceProviderParameters->removeElement($sourceProviderParameter);
+    }
+
+    /**
+     * Get sourceProviderParameters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSourceProviderParameters()
+    {
+        return $this->sourceProviderParameters;
+    }
+
+    /**
+     * Get Parameter
+     *
+     * @param string $key
+     * @return string | null
+     */
+    public function getParameter($key)
+    {
+        $parameters = $this->getSourceProviderParameters();
+
+        return isset($parameters[$key]) ? $parameters[$key] : null;
+    }
 }

@@ -430,4 +430,37 @@ class Source
     {
         return $this->messages;
     }
+
+    /**
+     * Add sourceProvider
+     *
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\SourceProvider $sourceProvider
+     * @return Source
+     */
+    public function addSourceProvider(\IDCI\Bundle\ContactFormBundle\Entity\SourceProvider $sourceProvider)
+    {
+        $this->sourceProviders[] = $sourceProvider;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sourceProvider
+     *
+     * @param \IDCI\Bundle\ContactFormBundle\Entity\SourceProvider $sourceProvider
+     */
+    public function removeSourceProvider(\IDCI\Bundle\ContactFormBundle\Entity\SourceProvider $sourceProvider)
+    {
+        $this->sourceProviders->removeElement($sourceProvider);
+    }
+
+    /**
+     * Get sourceProviders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSourceProviders()
+    {
+        return $this->sourceProviders;
+    }
 }
