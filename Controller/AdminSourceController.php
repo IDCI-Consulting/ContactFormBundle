@@ -97,7 +97,7 @@ class AdminSourceController extends Controller
      *
      * @Route("/create", name="admin_contact_source_create")
      * @Method("POST")
-     * @Template("IDCIContactFormBundle:Source:new.html.twig")
+     * @Template("IDCIContactFormBundle:AdminSource:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -118,7 +118,12 @@ class AdminSourceController extends Controller
                 ))
             );
 
-            return $this->redirect($this->generateUrl('admin_contact_source_show', array('id' => $entity->getId())));
+            return $this->redirect(
+                $this->generateUrl(
+                    'admin_contact_source_show',
+                    array('id' => $entity->getId())
+                )
+            );
         }
 
         return array(
@@ -157,7 +162,7 @@ class AdminSourceController extends Controller
      *
      * @Route("/{id}/update", name="admin_contact_source_update")
      * @Method("POST")
-     * @Template("IDCIContactFormBundle:Source:edit.html.twig")
+     * @Template("IDCIContactFormBundle:AdminSource:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -184,7 +189,12 @@ class AdminSourceController extends Controller
                 ))
             );
 
-            return $this->redirect($this->generateUrl('admin_contact_source_edit', array('id' => $id)));
+            return $this->redirect(
+                $this->generateUrl(
+                    'admin_contact_source_edit',
+                    array('id' => $id)
+                )
+            );
         }
 
         return array(
@@ -215,7 +225,7 @@ class AdminSourceController extends Controller
 
             $em->remove($entity);
             $em->flush();
-            
+
             $this->get('session')->getFlashBag()->add(
                 'info',
                 $this->get('translator')->trans('%entity%[%id%] has been deleted', array(
@@ -267,7 +277,10 @@ class AdminSourceController extends Controller
     public function newProviderAction($source_id)
     {
         $em = $this->getDoctrine()->getManager();
-        $source = $em->getRepository('IDCIContactFormBundle:Source')->find($source_id);
+        $source = $em
+            ->getRepository('IDCIContactFormBundle:Source')
+            ->find($source_id)
+        ;
 
         if (!$source) {
             throw $this->createNotFoundException('Unable to find Source entity.');
@@ -288,12 +301,15 @@ class AdminSourceController extends Controller
      *
      * @Route("/provider/{source_id}/create", name="admin_contact_source_provider_create")
      * @Method("POST")
-     * @Template("IDCIContactFormBundle:Source:newProvider.html.twig")
+     * @Template("IDCIContactFormBundle:AdminSource:newProvider.html.twig")
      */
     public function createProviderAction(Request $request, $source_id)
     {
         $em = $this->getDoctrine()->getManager();
-        $source = $em->getRepository('IDCIContactFormBundle:Source')->find($source_id);
+        $source = $em
+            ->getRepository('IDCIContactFormBundle:Source')
+            ->find($source_id)
+        ;
 
         if (!$source) {
             throw $this->createNotFoundException('Unable to find Source entity.');
@@ -317,33 +333,13 @@ class AdminSourceController extends Controller
                 ))
             );
 
-            return $this->redirect($this->generateUrl('admin_contact_source_show', array('id' => $source_id)));
+            return $this->redirect(
+                $this->generateUrl(
+                    'admin_contact_source_show',
+                    array('id' => $source_id)
+                )
+            );
         }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to add SourceProviderParameter entity.
-     *
-     * @Route("/provider/{id}/parameter/new", name="admin_contact_source_provider_parameter_new")
-     * @Template()
-     */
-    public function newProviderParameterAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $sourceProvider = $em->getRepository('IDCIContactFormBundle:SourceProvider')->find($id);
-
-        if (!$sourceProvider) {
-            throw $this->createNotFoundException('Unable to find SourceProvider entity.');
-        }
-
-        $entity = new SourceProviderParameter();
-        $entity->setSourceProvider($sourceProvider);
-        $form = $this->createForm(new SourceProviderParameterType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -372,7 +368,7 @@ class AdminSourceController extends Controller
 
             $em->remove($entity);
             $em->flush();
-            
+
             $this->get('session')->getFlashBag()->add(
                 'info',
                 $this->get('translator')->trans('%entity%[%id%] has been deleted', array(
@@ -397,6 +393,148 @@ class AdminSourceController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SourceProvider entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Displays a form to add SourceProviderParameter entity.
+     *
+     * @Route("/provider/{source_provider_id}/parameter/configure", name="admin_contact_source_provider_parameter_configure")
+     * @Template()
+     */
+    public function configureProviderParameterAction($source_provider_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sourceProvider = $em
+            ->getRepository('IDCIContactFormBundle:SourceProvider')
+            ->find($source_provider_id)
+        ;
+
+        if (!$sourceProvider) {
+            throw $this->createNotFoundException('Unable to find SourceProvider entity.');
+        }
+
+        $entity = new SourceProviderParameter();
+        $entity->setSourceProvider($sourceProvider);
+        $form = $this->createForm(new SourceProviderParameterType(), $entity);
+
+        return array(
+            'provider' => $sourceProvider,
+            'entity'   => $entity,
+            'form'     => $form->createView(),
+        );
+    }
+
+    /**
+     * Creates a new SourceProviderParameter entity.
+     *
+     * @Route("/provider/{source_provider_id}/parameter/create", name="admin_contact_source_provider_parameter_create")
+     * @Method("POST")
+     * @Template("IDCIContactFormBundle:AdminSource:configureProviderParameter.html.twig")
+     */
+    public function createProviderParameterAction(Request $request, $source_provider_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sourceProvider = $em
+            ->getRepository('IDCIContactFormBundle:SourceProvider')
+            ->find($source_provider_id)
+        ;
+
+        if (!$sourceProvider) {
+            throw $this->createNotFoundException('Unable to find SourceProvider entity.');
+        }
+
+        $entity = new SourceProviderParameter();
+        $entity->setSourceProvider($sourceProvider);
+        $form = $this->createForm(new SourceProviderParameterType(), $entity);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                $this->get('translator')->trans('%entity%[%id%] has been created', array(
+                    '%entity%' => 'SourceProviderParameter',
+                    '%id%'     => $entity->getId()
+                ))
+            );
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'admin_contact_source_provider_parameter_configure',
+                    array('source_provider_id' => $source_provider_id)
+                )
+            );
+        }
+
+        return array(
+            'provider' => $sourceProvider,
+            'entity'   => $entity,
+            'form'     => $form->createView(),
+        );
+    }
+
+    /**
+     * Deletes a SourceProviderParameter entity.
+     *
+     * @Route("/provider/parameter/{id}/delete", name="admin_contact_source_provider_parameter_delete")
+     * @Method("POST")
+     */
+    public function deleteProviderParameterAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('IDCIContactFormBundle:SourceProviderParameter')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find SourceProviderParameter entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                $this->get('translator')->trans('%entity%[%id%] has been deleted', array(
+                    '%entity%' => 'SourceProviderParameter',
+                    '%id%'     => $id
+                ))
+            );
+        }
+
+        return $this->redirect(
+            $this->generateUrl(
+                'admin_contact_source_provider_parameter_configure',
+                array('source_provider_id' => $entity->getSourceProvider()->getId())
+            )
+        );
+    }
+
+    /**
+     * Display SourceProviderParameter deleteForm.
+     *
+     * @Template()
+     */
+    public function deleteProviderParameterFormAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('IDCIContactFormBundle:SourceProviderParameter')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SourceProviderParameter entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
