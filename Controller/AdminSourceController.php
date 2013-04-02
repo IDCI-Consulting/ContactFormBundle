@@ -11,6 +11,8 @@ use IDCI\Bundle\ContactFormBundle\Entity\Source;
 use IDCI\Bundle\ContactFormBundle\Form\SourceType;
 use IDCI\Bundle\ContactFormBundle\Entity\SourceProvider;
 use IDCI\Bundle\ContactFormBundle\Form\SourceProviderType;
+use IDCI\Bundle\ContactFormBundle\Entity\SourceProviderParameter;
+use IDCI\Bundle\ContactFormBundle\Form\SourceProviderParameterType;
 
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
@@ -317,6 +319,31 @@ class AdminSourceController extends Controller
 
             return $this->redirect($this->generateUrl('admin_contact_source_show', array('id' => $source_id)));
         }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Displays a form to add SourceProviderParameter entity.
+     *
+     * @Route("/provider/{id}/parameter/new", name="admin_contact_source_provider_parameter_new")
+     * @Template()
+     */
+    public function newProviderParameterAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sourceProvider = $em->getRepository('IDCIContactFormBundle:SourceProvider')->find($id);
+
+        if (!$sourceProvider) {
+            throw $this->createNotFoundException('Unable to find SourceProvider entity.');
+        }
+
+        $entity = new SourceProviderParameter();
+        $entity->setSourceProvider($sourceProvider);
+        $form = $this->createForm(new SourceProviderParameterType(), $entity);
 
         return array(
             'entity' => $entity,

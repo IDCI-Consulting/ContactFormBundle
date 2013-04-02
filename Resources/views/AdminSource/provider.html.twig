@@ -1,1 +1,3 @@
-{{ provider }} {% render 'IDCIContactFormBundle:AdminSource:deleteProviderForm' with { 'id': provider.id } %}
+{{ provider }}
+{% render 'IDCIContactFormBundle:AdminSource:deleteProviderForm' with { 'id': provider.id } %}
+<a class="btn" href="{{ path('admin_contact_source_provider_parameter_new', {'id': provider.id}) }}">{% trans %}Configure{% endtrans %}</a>
