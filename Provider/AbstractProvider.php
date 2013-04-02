@@ -9,16 +9,28 @@
 
 namespace IDCI\Bundle\ContactFormBundle\Provider;
 
-use IDCI\Bundle\ContactFormBundle\Entity\Source;
+use IDCI\Bundle\ContactFormBundle\Entity\SourceProvider;
 
 abstract class AbstractProvider
 {
+    protected $container;
+
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
     /**
      * Send message using data
      *
-     * @param Source $source
+     * @param SourceProvider $source
      * @param array $data
      * @return boolean
      */
-    abstract function sendMessage(Source $source, $data);
+    abstract function sendMessage(SourceProvider $source_provider, $data);
 }

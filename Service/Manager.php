@@ -16,7 +16,7 @@ use IDCI\Bundle\ContactFormBundle\Exception\ContactFormConfigurationException;
 use IDCI\Bundle\ContactFormBundle\Exception\ContactFormSourceRequestException;
 use IDCI\Bundle\ContactFormBundle\Entity\Source;
 use IDCI\Bundle\ContactFormBundle\Entity\Message;
-use IDCI\Bundle\ContactFormBundle\Form\DataRequestTransformer\BaseDataRequestTransformer;
+use IDCI\Bundle\ContactFormBundle\Entity\SourceProvider;
 
 class Manager
 {
@@ -185,23 +185,11 @@ class Manager
     {
         $data = $this->getRequestData($source, $request);
 
+        var_dump($source->getSourceProvider()->getTransformer()); die;
         // TODO: defined source transformers and use them as service
-        $transformer = new BaseDataRequestTransformer();
+        //$transformer = new BaseDataRequestTransformer();
 
         return $transformer->transform($data);
-    }
-
-    /**
-     * Retrieve a provider based on a given mode
-     *
-     * @param string $provider_service
-     */
-    public function getProvider($provider_service)
-    {
-        return $this->getContainer()->get(sprintf(
-            "idci_contactform.provider.%s",
-            $provider_service
-        ));
     }
 
     /**
@@ -215,13 +203,40 @@ class Manager
     }
 
     /**
+     * Process the request with a given provider
      *
+     * @param SourceProvider $source_provider
+     * @param Request $request
      */
-    public function processRequest(Request $request)
+    public function processRequest(SourceProvider $source_provider, Request $request)
     {
-        // Objéctif: request -> message ()
+        $transformer = $this->getContainer()->get($source_provider->getDataRequestTransformer());
+        $data = $transformer->transform($this->getRequestData(
+            $source_provider->getSource(),
+            $request
+        ));
 
-        // 
-        return $this;
+        // Send message
+        $provider = $this->getContainer()->get($source_provider->getProvider());
+        $provider->sendMessage($source_provider, $data);
+
+        // Notify the source
+        $this->get('idci_contactform.manager')->notify($source, $request);
+
+        $source = $request->getHttpHost();
+        var_dump($request->isSecure());
+        var_dump($request->getClientIp());
+
+
+        //var_dump($request);die;
+        var_dump($request->getQueryString());
+        var_dump($request->getMethod());
+        var_dump($request->getRequestFormat());
+
+        // Todo: View return content html, json or xml ?
+        var_dump($request->isXmlHttpRequest());
+        //var_dump($request->);
+        die;
+        return array();
     }
 }

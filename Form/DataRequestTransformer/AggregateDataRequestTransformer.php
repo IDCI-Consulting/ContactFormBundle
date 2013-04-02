@@ -17,6 +17,8 @@ class AggregateDataRequestTransformer implements DataRequestTransformerInterface
 
     public function transform($data)
     {
-        return $data;
+        $transformedData = array_values($data);
+
+        return $transformedData[0];
     }
 }

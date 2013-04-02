@@ -29,7 +29,6 @@ class DemoController extends Controller
 
         return array(
             'action' => $this->generateUrl('idci_contactform_api_contact', array(
-                'mode' => 'mailer',
                 'token' => '_demo_token'
             )),
             'form' => $form->createView()
@@ -46,7 +45,6 @@ class DemoController extends Controller
 
         return array(
             'action' => $this->generateUrl('idci_contactform_api_contact', array(
-                'mode' => 'social_sharer',
                 'token' => '_demo_token'
             )),
             'form' => $form->createView()

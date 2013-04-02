@@ -191,6 +191,12 @@ class SourceProvider
     {
         $parameters = $this->getSourceProviderParameters();
 
-        return isset($parameters[$key]) ? $parameters[$key] : null;
+        foreach($parameters as $parameter) {
+            if ($parameter->getKey() == $key) {
+                return $parameter->getValue();
+            }
+        }
+
+        return null;
     }
 }

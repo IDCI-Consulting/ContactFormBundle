@@ -31,12 +31,13 @@ services:
 
     idci_contactform.provider.mailer:
         class: IDCI\Bundle\ContactFormBundle\Provider\MailerProvider
-        arguments: [@mailer, @templating]
+        arguments: [@service_container]
         tags:
             - { name: idci_contactform.provider }
 
     idci_contactform.provider.social_sharer:
         class: IDCI\Bundle\ContactFormBundle\Provider\SocialSharerProvider
+        arguments: [@service_container]
         tags:
             - { name: idci_contactform.provider }
 

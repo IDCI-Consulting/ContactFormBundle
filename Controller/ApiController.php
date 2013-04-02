@@ -18,40 +18,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ApiController extends Controller
 {
     /**
-     * @Route("/{mode}/{token}")
+     * @Route("/{token}")
      * @Template()
      */
-    public function contactAction(Request $request, $mode, $token)
+    public function contactAction(Request $request, $token)
     {
         // Retrieve the source
         $source = $this->get('idci_contactform.manager')->getSource($token);
 
-        // Get the right provider 
-        $provider = $this->get('idci_contactform.manager')->getProvider($mode);
+        foreach($source->getSourceProviders() as $sourceProvider) {
+            $this->get('idci_contactform.manager')->processRequest($sourceProvider, $request);
+        }
 
-        // transform request data following to the source
-        $data = $this->get('idci_contactform.manager')->transformData($source, $request);
-
-        // send message
-        $provider->sendMessage($source, $data);
-
-        // Notify the source
-        $this->get('idci_contactform.manager')->notify($source, $request);
-
-        $source = $request->getHttpHost();
-        var_dump($request->isSecure());
-        var_dump($request->getClientIp());
-
-
-        //var_dump($request);die;
-        var_dump($request->getQueryString());
-        var_dump($request->getMethod());
-        var_dump($request->getRequestFormat());
-
-        // Todo: View return content html, json or xml ?
-        var_dump($request->isXmlHttpRequest());
-        //var_dump($request->);
-        die;
-        return array();
+        die('good');
     }
 }
