@@ -85,7 +85,7 @@ class Manager
         if($this->getConfigurationParameter('restricted_method') != 'ANY') {
             if($request->getMethod() != $this->getConfigurationParameter('restricted_method')) {
                 throw new ContactFormConfigurationException(sprintf(
-                    "Request not valid: Http method %s expecting",
+                    "Request not valid: Http method %s expected",
                     $this->getConfigurationParameter('restricted_method')
                 ));
             }
@@ -109,7 +109,7 @@ class Manager
         }
 
         if($source->getHttpMethod() && $source->getHttpMethod() != $request->getMethod()) {
-            throw new ContactFormSourceRequestException(sprintf("Request not valid: Http method %s expecting", $source->getHttpMethod()));
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: Http method %s expected", $source->getHttpMethod()));
         }
 
         if($source->getDomainList() && !in_array($request->getHttpHost(), $source->getDomainList())) {
