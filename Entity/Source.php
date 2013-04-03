@@ -120,11 +120,11 @@ class Source
         );
     }
 
-    public static function generateToken()
+    public function generateToken()
     {
         $now = new \DateTime('now');
 
-        return md5(sprintf('%s %s %s',
+        return md5(sprintf('%s %s',
             $this->getName(),
             $this->getMail(),
             $now->format('l d F (H:i:s)')
@@ -137,7 +137,7 @@ class Source
     public function onCreate()
     {
         $this->setCreatedAt(new \DateTime('now'));
-        $this->setApiToken(self::generateToken());
+        $this->setApiToken($this->generateToken());
     }
 
     /**
