@@ -1,0 +1,31 @@
+{% extends "IDCIContactFormBundle::adminbase.html.twig" %}
+
+{% block body %}
+
+{{ parent() }}
+
+<div class="page-header">
+  <h1>{% trans %}Source Provider Parameter Edition{% endtrans %}</h1>
+</div>
+
+<form action="{{ path('admin_contact_source_provider_parameter_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+    <p>
+        <button type="submit" class="btn btn-primary">{% trans %}Edit{% endtrans %}</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a class="btn" href="{{ path('admin_contact_source_provider_parameter_configure', { 'source_provider_id': entity.sourceProvider.id }) }}">
+            {% trans %}Back to the configuration{% endtrans %}
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_contact_source_provider_parameter_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger">{% trans %}Delete{% endtrans %}</button>
+        </form>
+    </li>
+</ul>
+{% endblock body %}

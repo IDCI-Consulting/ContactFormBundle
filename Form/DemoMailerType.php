@@ -20,6 +20,8 @@ class DemoMailerType extends AbstractType
         $builder
             ->add('name', 'text', array('required' => false))
             ->add('message', 'textarea', array('required' => false))
+            ->add('tel', 'text', array('required' => false))
+            ->add('mail', 'email', array('required' => false))
         ;
     }
 

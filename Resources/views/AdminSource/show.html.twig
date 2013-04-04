@@ -75,11 +75,7 @@
         <tr>
             <th>Providers</th>
             <td>
-                <ul>
-                {% for provider in entity.sourceProviders %}
-                    <li>{% include 'IDCIContactFormBundle:AdminSource:provider.html.twig' with { 'provider': provider } %}</li>
-                {% endfor %}
-                </ul>
+                {% include 'IDCIContactFormBundle:AdminSource:providers.html.twig' with { 'source_providers': entity.sourceProviders } %}
             </td>
         </tr>
     </tbody>

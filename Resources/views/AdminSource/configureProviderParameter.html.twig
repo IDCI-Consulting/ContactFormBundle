@@ -13,7 +13,7 @@
     <tr>
       <th>Key</th>
       <th>Value</th>
-      <th>{% trans %}Actions{% endtrans %}</th>
+      <th colspan="2">{% trans %}Actions{% endtrans %}</th>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +21,11 @@
     <tr>
       <td>{{ parameter.key }}</td>
       <td>{{ parameter.value }}</td>
+      <td>
+        <a class="btn" href="{{ path('admin_contact_source_provider_parameter_edit', { 'id': parameter.id }) }}">
+          {% trans %}Edit{% endtrans %}
+        </a>
+      </td>
       <td>{% render 'IDCIContactFormBundle:AdminSource:deleteProviderParameterForm' with { 'id': parameter.id } %}</td>
     </tr>
     {% endfor %}

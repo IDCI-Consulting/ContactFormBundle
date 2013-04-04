@@ -485,6 +485,86 @@ class AdminSourceController extends Controller
     }
 
     /**
+     * Displays a form to edit an existing SourceProviderParameter entity.
+     *
+     * @Route("/provider/parameter/{id}/edit", name="admin_contact_source_provider_parameter_edit")
+     * @Template()
+     */
+    public function editProviderParameterAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em
+            ->getRepository('IDCIContactFormBundle:SourceProviderParameter')
+            ->find($id)
+        ;
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SourceProviderParameter entity.');
+        }
+
+        $editForm = $this->createForm(new SourceProviderParameterType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+     * Edits an existing SourceProviderParameter entity.
+     *
+     * @Route("/provider/parameter/{id}/update", name="admin_contact_source_provider_parameter_update")
+     * @Method("POST")
+     * @Template("IDCIContactFormBundle:AdminSource:editProviderParameter.html.twig")
+     */
+    public function updateProviderParameterAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em
+            ->getRepository('IDCIContactFormBundle:SourceProviderParameter')
+            ->find($id)
+        ;
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SourceProviderParameter entity.');
+        }
+
+        $editForm = $this->createForm(new SourceProviderParameterType(), $entity);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                $this->get('translator')->trans('%entity%[%id%] has been updated', array(
+                    '%entity%' => 'SourceProviderParameter',
+                    '%id%'     => $entity->getId()
+                ))
+            );
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'admin_contact_source_provider_parameter_configure',
+                    array('source_provider_id' => $entity->getSourceProvider()->getId())
+                )
+            );
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
      * Deletes a SourceProviderParameter entity.
      *
      * @Route("/provider/parameter/{id}/delete", name="admin_contact_source_provider_parameter_delete")

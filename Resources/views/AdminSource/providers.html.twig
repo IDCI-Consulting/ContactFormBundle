@@ -1,0 +1,21 @@
+<table>
+  <thead>
+    <tr>
+        <td>Service</td>
+        <td colspan="2">{% trans %}Actions{% endtrans %}</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for provider in source_providers %}
+        <tr>
+            <th>{{ provider }}</th>
+            <td>
+                <a class="btn" href="{{ path('admin_contact_source_provider_parameter_configure', {'source_provider_id': provider.id}) }}">
+                  <i class="icon-tasks"></i>
+                </a>
+            </td>
+            <td>{% render 'IDCIContactFormBundle:AdminSource:deleteProviderForm' with { 'id': provider.id } %}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>

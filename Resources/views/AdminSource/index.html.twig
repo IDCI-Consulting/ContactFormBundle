@@ -27,7 +27,6 @@
             <th>Name</th>
             <th>Mail</th>
             <th>IsEnabled</th>
-            <th>CreatedAt</th>
             <th>ApiToken</th>
             <th>DomainList</th>
             <th>IpWhiteList</th>
@@ -45,7 +44,6 @@
             <td>{{ entity.name }}</td>
             <td>{{ entity.mail }}</td>
             <td>{{ entity.isEnabled }}</td>
-            <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{{ entity.apiToken }}</td>
             <td>
                 <ul>
@@ -71,11 +69,7 @@
             <td>{{ entity.httpsOnly }}</td>
             <td>{{ entity.httpMethod }}</td>
             <td>
-                <ul>
-                {% for provider in entity.sourceProviders %}
-                    <li>{% include 'IDCIContactFormBundle:AdminSource:provider.html.twig' with { 'provider': provider } %}</li>
-                {% endfor %}
-                </ul>
+                {% include 'IDCIContactFormBundle:AdminSource:providers.html.twig' with { 'source_providers': entity.sourceProviders } %}
             </td>
             <td>
                 <a class="btn btn-success" href="{{ path('admin_contact_source_provider_new', { 'source_id': entity.id }) }}">{% trans %}add provider{% endtrans %}</a>
