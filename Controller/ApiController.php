@@ -30,6 +30,9 @@ class ApiController extends Controller
             $this->get('idci_contactform.manager')->processRequest($sourceProvider, $request);
         }
 
+        // Todo: View return content html, json or xml ?
+        var_dump($request->isXmlHttpRequest());
+        //var_dump($request->);
         die('good');
     }
 }

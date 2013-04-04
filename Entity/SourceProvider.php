@@ -185,9 +185,10 @@ class SourceProvider
      * Get Parameter
      *
      * @param string $key
+     * @param string $default
      * @return string | null
      */
-    public function getParameter($key)
+    public function getParameter($key, $default = null)
     {
         $parameters = $this->getSourceProviderParameters();
 
@@ -197,6 +198,6 @@ class SourceProvider
             }
         }
 
-        return null;
+        return $default;
     }
 }

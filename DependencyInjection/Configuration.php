@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('mode')->defaultValue('normal')->cannotBeEmpty()->end()
-                ->booleanNode('tracking_enabled')->defaultFalse()->end()
+                ->booleanNode('tracking_enabled')->defaultTrue()->end()
                 ->booleanNode('https_only')->defaultFalse()->end()
                 ->scalarNode('restricted_method')->defaultValue('ANY')->cannotBeEmpty()->end()
             ->end()

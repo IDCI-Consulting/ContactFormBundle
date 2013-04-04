@@ -29,11 +29,7 @@
         <tr>
             <th>Data</th>
             <td>
-                <ul>
-                {% for data in entity.data %}
-                    <li>{{ data }}</li>
-                {% endfor %}
-                </ul>
+                {{ dump(entity.data) }}
             </td>
         </tr>
         <tr>
@@ -41,12 +37,8 @@
             <td>{{ entity.ip }}</td>
         </tr>
         <tr>
-            <th>UserAgent</th>
-            <td>{{ entity.userAgent }}</td>
-        </tr>
-        <tr>
-            <th>Referer</th>
-            <td>{{ entity.referer }}</td>
+            <th>Headers</th>
+            <td>{{ entity.headers }}</td>
         </tr>
     </tbody>
 </table>

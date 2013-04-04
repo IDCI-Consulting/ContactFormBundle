@@ -66,16 +66,9 @@ class Message
     /**
      * @var string
      *
-     * @ORM\Column(name="user_agent", type="string", nullable=true)
+     * @ORM\Column(name="headers", type="text", nullable=true)
      */
-    private $userAgent;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="referer", type="string", nullable=true)
-     */
-    private $referer;
+    private $headers;
 
     /**
      * @ORM\PrePersist()
@@ -211,48 +204,25 @@ class Message
     }
 
     /**
-     * Set userAgent
+     * Set headers
      *
-     * @param string $userAgent
+     * @param string $headers
      * @return Message
      */
-    public function setUserAgent($userAgent)
+    public function setHeaders($headers)
     {
-        $this->userAgent = $userAgent;
+        $this->headers = $headers;
     
         return $this;
     }
 
     /**
-     * Get userAgent
+     * Get headers
      *
      * @return string 
      */
-    public function getUserAgent()
+    public function getHeaders()
     {
-        return $this->userAgent;
-    }
-
-    /**
-     * Set referer
-     *
-     * @param string $referer
-     * @return Message
-     */
-    public function setReferer($referer)
-    {
-        $this->referer = $referer;
-    
-        return $this;
-    }
-
-    /**
-     * Get referer
-     *
-     * @return string 
-     */
-    public function getReferer()
-    {
-        return $this->referer;
+        return $this->headers;
     }
 }

@@ -16,7 +16,7 @@ class MessageType extends AbstractType
             ->add('data')
             ->add('ip')
             ->add('userAgent')
-            ->add('referer')
+            ->add('header')
         ;
     }
 

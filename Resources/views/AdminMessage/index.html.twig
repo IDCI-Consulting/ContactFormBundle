@@ -27,10 +27,7 @@
             <th>Source</th>
             <th>CreatedAt</th>
             <th>Provider</th>
-            <th>Data</th>
             <th>Ip</th>
-            <th>UserAgent</th>
-            <th>Referer</th>
             <th colspan="3">{% trans %}Actions{% endtrans %}</th>
         </tr>
     </thead>
@@ -41,16 +38,7 @@
             <td>{{ entity.source }}</td>
             <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{{ entity.provider }}</td>
-            <td>
-                <ul>
-                {% for data in entity.data %}
-                    <li>{{ data }}</li>
-                {% endfor %}
-                </ul>
-            </td>
             <td>{{ entity.ip }}</td>
-            <td>{{ entity.userAgent }}</td>
-            <td>{{ entity.referer }}</td>
             <td>
                 <a class="btn" href="{{ path('admin_contact_message_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
             </td>

@@ -198,8 +198,25 @@ class Manager
      * @param Source $source
      * @param Message $message
      */
-    public function notify(Source $source, Message $message)
+    public function notify(SourceProvider $source_provider, Request $request)
     {
+        $message = new Message();
+        $message->setSource($source_provider->getSource());
+        $message->setProvider($source_provider->getProvider());
+
+        if($this->getConfigurationParameter('tracking_enabled')) {
+            $message->setIp($request->getClientIp());
+            $message->setHeaders($request->headers);
+        }
+
+        if($this->getConfigurationParameter('mode') != 'anonyme') {
+            $data = $this->getRequestData($source_provider->getSource(), $request);
+            $message->setData($data);
+        }
+
+        $em = $this->getEntityManager();
+        $em->persist($message);
+        $em->flush();
     }
 
     /**
@@ -221,22 +238,6 @@ class Manager
         $provider->sendMessage($source_provider, $data);
 
         // Notify the source
-        $this->get('idci_contactform.manager')->notify($source, $request);
-
-        $source = $request->getHttpHost();
-        var_dump($request->isSecure());
-        var_dump($request->getClientIp());
-
-
-        //var_dump($request);die;
-        var_dump($request->getQueryString());
-        var_dump($request->getMethod());
-        var_dump($request->getRequestFormat());
-
-        // Todo: View return content html, json or xml ?
-        var_dump($request->isXmlHttpRequest());
-        //var_dump($request->);
-        die;
-        return array();
+        $this->notify($source_provider, $request);
     }
 }

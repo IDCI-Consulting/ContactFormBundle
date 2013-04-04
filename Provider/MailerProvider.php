@@ -35,23 +35,71 @@ class MailerProvider extends AbstractProvider
 
     public function sendMessage(SourceProvider $source_provider, $data)
     {
-        var_dump($source_provider->getParameter('trest'));
-        die;
+        $mailerTransport = $source_provider->getParameter(
+            'mailer_transport',
+            $this->getContainer()->getParameter('mailer_transport')
+        );
+
+        $mailerHost = $source_provider->getParameter(
+            'mailer_host',
+            $this->getContainer()->getParameter('mailer_host')
+        );
+
+        $mailerPort = $source_provider->getParameter(
+            'mailer_port',
+            25
+        );
+
+        $mailerUser = $source_provider->getParameter(
+            'mailer_user',
+            $this->getContainer()->getParameter('mailer_user')
+        );
+
+        $mailerPassword = $source_provider->getParameter(
+            'mailer_password',
+            $this->getContainer()->getParameter('mailer_password')
+        );
+
+        $mailerEncryption = $source_provider->getParameter('mailer_encryption');
+
+        $subject = $source_provider->getParameter('subject');
+        $to = $source_provider->getParameter('to');
+
+        if ($mailerTransport == 'smtp') {
+            $transport = \Swift_SmtpTransport::newInstance($mailerHost, $mailerPort, $mailerEncryption)
+                ->setUsername($mailerUser)
+                ->setPassword($mailerPassword)
+            ;
+        }
+
+        /*
+        You could alternatively use a different transport such as Sendmail or Mail:
+
+        // Sendmail
+        $transport = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
+
+        // Mail
+        $transport = Swift_MailTransport::newInstance();
+        */
+
+        // Create the Mailer using your created Transport
+        $mailer = \Swift_Mailer::newInstance($transport);
+
         $message = \Swift_Message::newInstance()
             ->setSubject(sprintf(
-                '[Contact Form - %s]',
-                $source
+                '[Contact Form] - %s',
+                $subject
             ))
-            ->setFrom($source->getMail())
-            ->setTo('recipient@example.com')
+            ->setFrom($source_provider->getSource()->getMail())
+            ->setTo($to)
             ->setBody(
-                $this->renderView(
-                    'IDCIConstactFormBundle:ProviderMailer:body.txt.twig',
+                $this->getTemplating()->render(
+                    'IDCIContactFormBundle:ProviderMailer:body.txt.twig',
                     array('data' => $data)
                 )
             )
         ;
 
-        $this->getMailer()->send($message);
+        $mailer->send($message);
     }
 }
