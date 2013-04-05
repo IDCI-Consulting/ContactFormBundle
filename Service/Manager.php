@@ -112,16 +112,17 @@ class Manager
             throw new ContactFormSourceRequestException(sprintf("Request not valid: Http method %s expected", $source->getHttpMethod()));
         }
 
-        if($source->getDomainList() && !in_array($request->getHttpHost(), $source->getDomainList())) {
-            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is not a valid domain", $request->getHttpHost()));
+        $referer = parse_url($request->headers->get('referer'));
+        if($source->getDomainList() && !in_array($referer['host'], $source->getDomainList())) {
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is not a valid domain", $referer['host']));
         }
 
-        if($source->getIpWhiteList() && !in_array($request->getClientIp(), $source->getIpWhiteList())) {
-            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is not in the ipWhiteList", $request->getClientIp()));
+        if($source->getIpWhiteList() && !in_array($request->getClientIp(true), $source->getIpWhiteList())) {
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is not in the ipWhiteList", $request->getClientIp(true)));
         }
 
-        if($source->getIpBlackList() && in_array($request->getClientIp(), $source->getIpBlackList())) {
-            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is in the ipBlackList", $request->getClientIp()));
+        if($source->getIpBlackList() && in_array($request->getClientIp(true), $source->getIpBlackList())) {
+            throw new ContactFormSourceRequestException(sprintf("Request not valid: %s is in the ipBlackList", $request->getClientIp(true)));
         }
 
         return true;
@@ -187,7 +188,7 @@ class Manager
         $message->setProvider($source_provider->getProvider());
 
         if($this->getConfigurationParameter('tracking_enabled')) {
-            $message->setIp($request->getClientIp());
+            $message->setIp($request->getClientIp(true));
             $message->setHeaders($request->headers);
         }
 
