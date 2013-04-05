@@ -63,7 +63,9 @@ class MailerProvider extends AbstractProvider
         $mailerEncryption = $source_provider->getParameter('mailer_encryption');
 
         $subject = $source_provider->getParameter('subject');
-        $to = $source_provider->getParameter('to');
+        $to = $source_provider->getParameters('to');
+        $cc = $source_provider->getParameters('cc');
+        $bcc = $source_provider->getParameters('bcc');
 
         if ($mailerTransport == 'smtp') {
             $transport = \Swift_SmtpTransport::newInstance($mailerHost, $mailerPort, $mailerEncryption)
@@ -90,8 +92,10 @@ class MailerProvider extends AbstractProvider
                 '[Contact Form] - %s',
                 $subject
             ))
-            ->setFrom($source_provider->getSource()->getMail())
             ->setTo($to)
+            ->setCc($cc)
+            ->setBcc($bcc)
+            ->setFrom($source_provider->getSource()->getMail())
             ->setBody(
                 $this->getTemplating()->render(
                     'IDCIContactFormBundle:ProviderMailer:body.txt.twig',

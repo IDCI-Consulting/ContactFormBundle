@@ -200,4 +200,24 @@ class SourceProvider
 
         return $default;
     }
+
+    /**
+     * Get Parameters
+     *
+     * @param string $key
+     * @return string | null
+     */
+    public function getParameters($key)
+    {
+        $parameters = $this->getSourceProviderParameters();
+
+        $ret = array();
+        foreach($parameters as $parameter) {
+            if ($parameter->getKey() == $key) {
+                $ret[] = $parameter->getValue();
+            }
+        }
+
+        return $ret;
+    }
 }
