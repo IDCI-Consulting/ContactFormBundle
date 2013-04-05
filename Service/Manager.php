@@ -175,24 +175,6 @@ class Manager
     }
 
     /**
-     * Transform data from the request as defined in the source
-     *
-     * @param Source $source
-     * @param Request $request
-     * @return array
-     */
-    public function transformData(Source $source, Request $request)
-    {
-        $data = $this->getRequestData($source, $request);
-
-        var_dump($source->getSourceProvider()->getTransformer()); die;
-        // TODO: defined source transformers and use them as service
-        //$transformer = new BaseDataRequestTransformer();
-
-        return $transformer->transform($data);
-    }
-
-    /**
      * Notify a source that a new message was sent
      *
      * @param Source $source
@@ -241,9 +223,19 @@ class Manager
 
             // Notify the source
             $this->notify($source_provider, $request);
-        } catch(\Exception $e) {
+        } catch(ContactFormConfigurationException $e) {
             return array(
-                'code' => 400,
+                'code' => 451,
+                'message' => $e->getMessage()
+            );
+        } catch(ContactFormSourceRequestException $e) {
+            return array(
+                'code' => 452,
+                'message' => $e->getMessage()
+            );
+        } catch(ContactFormSourceUnavailableException $e) {
+            return array(
+                'code' => 453,
                 'message' => $e->getMessage()
             );
         }
