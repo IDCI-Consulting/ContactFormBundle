@@ -15,8 +15,7 @@ class MessageType extends AbstractType
             ->add('provider', 'provider_choice')
             ->add('data')
             ->add('ip')
-            ->add('userAgent')
-            ->add('header')
+            ->add('headers')
         ;
     }
 
