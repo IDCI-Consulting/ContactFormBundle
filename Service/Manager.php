@@ -224,20 +224,34 @@ class Manager
      *
      * @param SourceProvider $source_provider
      * @param Request $request
+     * @return array (ex: array("code"=> (int), "message" => (string)))
      */
     public function processRequest(SourceProvider $source_provider, Request $request)
     {
-        $transformer = $this->getContainer()->get($source_provider->getDataRequestTransformer());
-        $data = $transformer->transform($this->getRequestData(
-            $source_provider->getSource(),
-            $request
-        ));
+        try {
+            $transformer = $this->getContainer()->get($source_provider->getDataRequestTransformer());
+            $data = $transformer->transform($this->getRequestData(
+                $source_provider->getSource(),
+                $request
+            ));
 
-        // Send message
-        $provider = $this->getContainer()->get($source_provider->getProvider());
-        $provider->sendMessage($source_provider, $data);
+            // Send message
+            $provider = $this->getContainer()->get($source_provider->getProvider());
+            $provider->sendMessage($source_provider, $data);
 
-        // Notify the source
-        $this->notify($source_provider, $request);
+            // Notify the source
+            $this->notify($source_provider, $request);
+        } catch(\Exception $e) {
+            return array(
+                'code' => 400,
+                'message' => $e->getMessage()
+            );
+        }
+
+        return array(
+            'code' => 200,
+            'message' => 'OK'
+        );
     }
 }
+

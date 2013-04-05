@@ -24,6 +24,10 @@ class SourceType extends AbstractType
                 'choices' => Source::getHttpMethods(),
                 'required' => false,
             ))
+            ->add('responseFormat', 'choice', array(
+                'choices' => Source::getResponseFormats(),
+                'required' => false,
+            ))
         ;
     }
 

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IDCIContactForm API Response</title>
+  </head>
+  <body>
+    <ul>
+      {% for response in responses %}
+      <li>
+        {{ response.code }} : {{ response.message }}
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

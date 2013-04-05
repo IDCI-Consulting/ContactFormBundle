@@ -33,6 +33,7 @@
             <th>IpBlackList</th>
             <th>HttpsOnly</th>
             <th>HttpMethod</th>
+            <th>ResponseFormat</th>
             <th>Providers</th>
             <th colspan="4">{% trans %}Actions{% endtrans %}</th>
         </tr>
@@ -68,6 +69,7 @@
             </td>
             <td>{{ entity.httpsOnly }}</td>
             <td>{{ entity.httpMethod }}</td>
+            <td>{{ entity.responseFormat }}</td>
             <td>
                 {% include 'IDCIContactFormBundle:AdminSource:providers.html.twig' with { 'source_providers': entity.sourceProviders } %}
             </td>

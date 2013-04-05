@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{% spaceless %}
+<api_responses>
+  {% for response in responses %}
+  <response code="{{ response.code }}">{{ response.message }}</response>
+  {% endfor %}
+</api_responses>
+{% endspaceless %}

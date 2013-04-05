@@ -73,6 +73,10 @@
             <td>{{ entity.httpMethod }}</td>
         </tr>
         <tr>
+            <th>ResponseFormat</th>
+            <td>{{ entity.responseFormat }}</td>
+        </tr>
+        <tr>
             <th>Providers</th>
             <td>
                 {% include 'IDCIContactFormBundle:AdminSource:providers.html.twig' with { 'source_providers': entity.sourceProviders } %}

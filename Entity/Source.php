@@ -21,6 +21,15 @@ class Source
     const HTTP_METHOD_GET  = "GET";
     const HTTP_METHOD_POST = "POST";
     const HTTP_METHOD_PUT  = "PUT";
+    const HTTP_RESPONSE_HTML = "html";
+    const HTTP_RESPONSE_XML = "xml";
+    const HTTP_RESPONSE_JSON = "json";
+
+    static public $RESPONSE_CONTENT_TYPES = array(
+        self::HTTP_RESPONSE_HTML => 'text/html',
+        self::HTTP_RESPONSE_XML  => 'application/xml',
+        self::HTTP_RESPONSE_JSON => 'application/json'
+    );
 
     /**
      * @var integer
@@ -95,11 +104,18 @@ class Source
     private $httpsOnly;
 
     /**
-     * @var boolean
+     * @var string
      *
      * @ORM\Column(name="http_method", type="string", nullable=true)
      */
     private $httpMethod;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="response_format", type="string", nullable=true)
+     */
+    private $responseFormat;
 
     /**
      * @ORM\OneToMany(targetEntity="IDCI\Bundle\ContactFormBundle\Entity\Message", mappedBy="source")
@@ -117,6 +133,15 @@ class Source
             self::HTTP_METHOD_GET  => self::HTTP_METHOD_GET,
             self::HTTP_METHOD_POST => self::HTTP_METHOD_POST,
             self::HTTP_METHOD_PUT  => self::HTTP_METHOD_PUT,
+        );
+    }
+
+    public static function getResponseFormats()
+    {
+        return array(
+            self::HTTP_RESPONSE_HTML  => self::HTTP_RESPONSE_HTML,
+            self::HTTP_RESPONSE_JSON => self::HTTP_RESPONSE_JSON,
+            self::HTTP_RESPONSE_XML  => self::HTTP_RESPONSE_XML,
         );
     }
 
@@ -396,6 +421,39 @@ class Source
     public function getHttpMethod()
     {
         return $this->httpMethod;
+    }
+
+    /**
+     * Set responseFormat
+     *
+     * @param string $responseFormat
+     * @return Source
+     */
+    public function setResponseFormat($responseFormat)
+    {
+        $this->responseFormat = $responseFormat;
+
+        return $this;
+    }
+
+    /**
+     * Get responseFormat
+     *
+     * @return string 
+     */
+    public function getResponseFormat()
+    {
+        return is_null($this->responseFormat) ? self::HTTP_RESPONSE_HTML : $this->responseFormat;
+    }
+
+    /**
+     * Get ResponseContentType
+     *
+     * @return string 
+     */
+    public function getResponseContentType()
+    {
+        return self::$RESPONSE_CONTENT_TYPES[$this->getResponseFormat()];
     }
 
     /**
