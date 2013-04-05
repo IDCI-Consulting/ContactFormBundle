@@ -29,7 +29,7 @@
         <tr>
             <th>Data</th>
             <td>
-                {{ dump(entity.data) }}
+                {% include 'IDCIContactFormBundle:AdminMessage:subitem.html.twig' with { 'item': entity.data } %}
             </td>
         </tr>
         <tr>

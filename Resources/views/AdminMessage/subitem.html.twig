@@ -1,0 +1,9 @@
+<ul>
+{% for key, value in item %}
+    {% if value[0] is defined %}
+        {% include "subitem.html.tpl" with { 'item': value } %}
+    {% else %}
+        <li>{{ key}}:{{ value }}</li>
+    {% endif %}
+{% endfor %}
+</ul>
