@@ -40,19 +40,7 @@ class ApiController extends Controller
             array('responses' => $responses)
         ));
         $response->headers->set('Content-Type', $source->getResponseContentType());
-        $response->setStatusCode(self::getStatusCode($responses));
 
         return $response;
-    }
-
-    public static function getStatusCode($responses)
-    {
-        foreach($responses as $response) {
-            if($response['code'] != 200) {
-                return 403;
-            }
-        }
-
-        return 200;
     }
 }
