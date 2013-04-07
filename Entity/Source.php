@@ -30,7 +30,7 @@ class Source
         self::HTTP_RESPONSE_HTML => 'text/html',
         self::HTTP_RESPONSE_XML  => 'application/xml',
         self::HTTP_RESPONSE_JSON => 'application/json',
-        self::HTTP_RESPONSE_JSONP => 'text/javascript'
+        self::HTTP_RESPONSE_JSONP => 'application/javascript'
     );
 
     /**
