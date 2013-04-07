@@ -1,0 +1,10 @@
+{{ app.request.get('callback') }}([
+{% spaceless %}
+  {% for response in responses %}
+  {
+    "code" : "{{ response.code }}",
+    "message" : "{{ response.message }}"
+  }{% if not loop.last %},{% endif %}
+  {% endfor %}
+{% endspaceless %}
+])

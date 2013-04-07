@@ -24,11 +24,13 @@ class Source
     const HTTP_RESPONSE_HTML = "html";
     const HTTP_RESPONSE_XML = "xml";
     const HTTP_RESPONSE_JSON = "json";
+    const HTTP_RESPONSE_JSONP = "jsonp";
 
     static public $RESPONSE_CONTENT_TYPES = array(
         self::HTTP_RESPONSE_HTML => 'text/html',
         self::HTTP_RESPONSE_XML  => 'application/xml',
-        self::HTTP_RESPONSE_JSON => 'application/json'
+        self::HTTP_RESPONSE_JSON => 'application/json',
+        self::HTTP_RESPONSE_JSONP => 'text/javascript'
     );
 
     /**
@@ -140,8 +142,9 @@ class Source
     {
         return array(
             self::HTTP_RESPONSE_HTML  => self::HTTP_RESPONSE_HTML,
-            self::HTTP_RESPONSE_JSON => self::HTTP_RESPONSE_JSON,
-            self::HTTP_RESPONSE_XML  => self::HTTP_RESPONSE_XML,
+            self::HTTP_RESPONSE_JSON  => self::HTTP_RESPONSE_JSON,
+            self::HTTP_RESPONSE_JSONP => self::HTTP_RESPONSE_JSONP,
+            self::HTTP_RESPONSE_XML   => self::HTTP_RESPONSE_XML,
         );
     }
 
