@@ -15,10 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+/**
+ * Message controller.
+ *
+ * @Route("/contact/api")
+ */
 class ApiController extends Controller
 {
     /**
-     * @Route("/{token}")
+     * @Route("/{token}", name="contact_api")
      * @Template()
      */
     public function contactAction(Request $request, $token)

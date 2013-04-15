@@ -17,10 +17,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use IDCI\Bundle\ContactFormBundle\Form\DemoMailerType;
 use IDCI\Bundle\ContactFormBundle\Form\DemoSocialSharerType;
 
+/**
+ * Message controller.
+ *
+ * @Route("/contact/demo")
+ */
 class DemoController extends Controller
 {
     /**
-     * @Route("/mail")
+     * @Route("/mail", name="contact_demo_mail")
      * @Template("IDCIContactFormBundle:Demo:displayForm.html.twig")
      */
     public function contactAction(Request $request)
@@ -36,7 +41,7 @@ class DemoController extends Controller
     }
 
     /**
-     * @Route("/social-share")
+     * @Route("/social-share", name="contact_demo_socialshare")
      * @Template("IDCIContactFormBundle:Demo:displayForm.html.twig")
      */
     public function socialShareAction(Request $request)

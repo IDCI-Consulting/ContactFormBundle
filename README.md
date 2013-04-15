@@ -63,6 +63,11 @@ idci_contact_form_api:
 If you wish access to an administration space, add this following controllers:
 
 ```yml
+idci_contact_form_admin:
+    resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/AdminController.php"
+    type:     annotation
+    prefix:   /admin
+
 idci_contact_form_admin_source:
     resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/AdminSourceController.php"
     type:     annotation
