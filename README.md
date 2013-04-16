@@ -16,7 +16,7 @@ First add the dependencies to your `composer.json` file:
     ...
     "pagerfanta/pagerfanta": "dev-master",
     "white-october/pagerfanta-bundle": "dev-master",
-    "idci/contact-form-bundle": "dev-master"
+    "idci/contact-form-bundle": "2.1.*@dev"
 },
 ```
 
