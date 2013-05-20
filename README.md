@@ -4,7 +4,7 @@ ContactFormBundle
 Symfony2 contact form bundle and social sharing
 
 
-Instalation
+Installation
 ===========
 
 To install this bundle please follow the next steps:
