@@ -47,7 +47,9 @@ class MailerProvider extends AbstractProvider
 
         $mailerPort = $source_provider->getParameter(
             'mailer_port',
-            25
+            $this->getContainer()->hasParameter('mailer_port')
+            ? $this->getContainer()->getParameter('mailer_port')
+            : 25
         );
 
         $mailerUser = $source_provider->getParameter(

@@ -33,7 +33,7 @@ class DemoController extends Controller
         $form = $this->createForm(new DemoMailerType());
 
         return array(
-            'action' => $this->generateUrl('idci_contactform_api_contact', array(
+            'action' => $this->generateUrl('contact_api', array(
                 'token' => '_demo_token'
             )),
             'form' => $form->createView()
@@ -49,7 +49,7 @@ class DemoController extends Controller
         $form = $this->createForm(new DemoSocialSharerType());
 
         return array(
-            'action' => $this->generateUrl('idci_contactform_api_contact', array(
+            'action' => $this->generateUrl('contact_api', array(
                 'token' => '_demo_token'
             )),
             'form' => $form->createView()
