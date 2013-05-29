@@ -83,7 +83,7 @@
                 <a class="btn btn-primary" href="{{ path('admin_contact_source_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
             </td>
             <td>
-                {% render 'IDCIContactFormBundle:AdminSource:deleteForm' with { 'id': entity.id } %}
+                {{ render(controller('IDCIContactFormBundle:AdminSource:deleteForm', { 'id': entity.id })) }}
             </td>
         </tr>
     {% endfor %}

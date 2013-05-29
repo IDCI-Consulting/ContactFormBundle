@@ -14,7 +14,9 @@
                   <i class="icon-tasks"></i>
                 </a>
             </td>
-            <td>{% render 'IDCIContactFormBundle:AdminSource:deleteProviderForm' with { 'id': provider.id } %}</td>
+            <td>
+                {{ render(controller('IDCIContactFormBundle:AdminSource:deleteProviderForm', { 'id': provider.id })) }}
+            </td>
         </tr>
     {% endfor %}
   </tbody>
