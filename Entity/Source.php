@@ -165,7 +165,10 @@ class Source
     public function onCreate()
     {
         $this->setCreatedAt(new \DateTime('now'));
-        $this->setApiToken($this->generateToken());
+
+        if ($this->getApiToken() === null) {
+            $this->setApiToken($this->generateToken());
+        }
     }
 
     /**
