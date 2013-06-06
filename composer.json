@@ -23,5 +23,10 @@
         "psr-0": { "IDCI\\Bundle\\ContactFormBundle": "" }
     },
     "target-dir": "IDCI/Bundle/ContactFormBundle",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1-dev"
+        }
+    }
 }
