@@ -13,7 +13,7 @@
     ],
     "require": {
         "php":                             ">=5.3.2",
-        "symfony/framework-bundle":        "2.3.*",
+        "symfony/framework-bundle":        ">=2.2",
         "twig/twig":                       "*",
         "doctrine/doctrine-bundle":        "*",
         "pagerfanta/pagerfanta":           "dev-master",
@@ -23,10 +23,5 @@
         "psr-0": { "IDCI\\Bundle\\ContactFormBundle": "" }
     },
     "target-dir": "IDCI/Bundle/ContactFormBundle",
-    "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.3-dev"
-        }
-    }
+    "minimum-stability": "dev"
 }
