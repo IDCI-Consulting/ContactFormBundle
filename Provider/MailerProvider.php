@@ -33,41 +33,41 @@ class MailerProvider extends AbstractProvider
         return $this->getContainer()->get('templating');
     }
 
-    public function sendMessage(SourceProvider $source_provider, $data)
+    public function sendMessage(SourceProvider $sourceProvider, $data)
     {
-        $mailerTransport = $source_provider->getParameter(
+        $mailerTransport = $sourceProvider->getParameter(
             'mailer_transport',
             $this->getContainer()->getParameter('mailer_transport')
         );
 
-        $mailerHost = $source_provider->getParameter(
+        $mailerHost = $sourceProvider->getParameter(
             'mailer_host',
             $this->getContainer()->getParameter('mailer_host')
         );
 
-        $mailerPort = $source_provider->getParameter(
+        $mailerPort = $sourceProvider->getParameter(
             'mailer_port',
             $this->getContainer()->hasParameter('mailer_port')
             ? $this->getContainer()->getParameter('mailer_port')
             : 25
         );
 
-        $mailerUser = $source_provider->getParameter(
+        $mailerUser = $sourceProvider->getParameter(
             'mailer_user',
             $this->getContainer()->getParameter('mailer_user')
         );
 
-        $mailerPassword = $source_provider->getParameter(
+        $mailerPassword = $sourceProvider->getParameter(
             'mailer_password',
             $this->getContainer()->getParameter('mailer_password')
         );
 
-        $mailerEncryption = $source_provider->getParameter('mailer_encryption');
+        $mailerEncryption = $sourceProvider->getParameter('mailer_encryption');
 
-        $subject = $source_provider->getParameter('subject');
-        $to = $source_provider->getParameters('to');
-        $cc = $source_provider->getParameters('cc');
-        $bcc = $source_provider->getParameters('bcc');
+        $subject = $sourceProvider->getParameter('subject');
+        $to = $sourceProvider->getParameters('to');
+        $cc = $sourceProvider->getParameters('cc');
+        $bcc = $sourceProvider->getParameters('bcc');
 
         if ($mailerTransport == 'smtp') {
             $transport = \Swift_SmtpTransport::newInstance($mailerHost, $mailerPort, $mailerEncryption)
@@ -97,7 +97,7 @@ class MailerProvider extends AbstractProvider
             ->setTo($to)
             ->setCc($cc)
             ->setBcc($bcc)
-            ->setFrom($source_provider->getSource()->getMail())
+            ->setFrom($sourceProvider->getSource()->getMail())
             ->setBody(
                 $this->getTemplating()->render(
                     'IDCIContactFormBundle:ProviderMailer:body.txt.twig',

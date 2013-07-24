@@ -10,16 +10,15 @@
 namespace IDCI\Bundle\ContactFormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DataRequestTransformerChoiceType extends AbstractType
 {
     protected $dataRequestTransformerList;
 
-    public function __construct($data_request_transformer_list)
+    public function __construct($dataRequestTransformerList)
     {
-        $this->dataRequestTransformerList = $data_request_transformer_list;
+        $this->dataRequestTransformerList = $dataRequestTransformerList;
     }
 
     public function getDataRequestTransformerList()

@@ -13,7 +13,7 @@ use IDCI\Bundle\ContactFormBundle\Entity\SourceProvider;
 
 class SocialSharerProvider extends AbstractProvider
 {
-    public function sendMessage(SourceProvider $source_provider, $data)
+    public function sendMessage(SourceProvider $sourceProvider, $data)
     {
         var_dump($data);die;
     }

@@ -10,16 +10,15 @@
 namespace IDCI\Bundle\ContactFormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ProviderChoiceType extends AbstractType
 {
     protected $providerList;
 
-    public function __construct($provider_list)
+    public function __construct($providerList)
     {
-        $this->providerList = $provider_list;
+        $this->providerList = $providerList;
     }
 
     public function getProviderList()

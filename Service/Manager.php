@@ -181,11 +181,11 @@ class Manager
      * @param Source $source
      * @param Message $message
      */
-    public function notify(SourceProvider $source_provider, Request $request)
+    public function notify(SourceProvider $sourceProvider, Request $request)
     {
         $message = new Message();
-        $message->setSource($source_provider->getSource());
-        $message->setProvider($source_provider->getProvider());
+        $message->setSource($sourceProvider->getSource());
+        $message->setProvider($sourceProvider->getProvider());
 
         if($this->getConfigurationParameter('tracking_enabled')) {
             $message->setIp($request->getClientIp(true));
@@ -193,7 +193,7 @@ class Manager
         }
 
         if($this->getConfigurationParameter('mode') != 'anonyme') {
-            $data = $this->getRequestData($source_provider->getSource(), $request);
+            $data = $this->getRequestData($sourceProvider->getSource(), $request);
             $message->setData($data);
         }
 
@@ -205,25 +205,25 @@ class Manager
     /**
      * Process the request with a given provider
      *
-     * @param SourceProvider $source_provider
+     * @param SourceProvider $sourceProvider
      * @param Request $request
      * @return array (ex: array("code"=> (int), "message" => (string)))
      */
-    public function processRequest(SourceProvider $source_provider, Request $request)
+    public function processRequest(SourceProvider $sourceProvider, Request $request)
     {
         try {
-            $transformer = $this->getContainer()->get($source_provider->getDataRequestTransformer());
+            $transformer = $this->getContainer()->get($sourceProvider->getDataRequestTransformer());
             $data = $transformer->transform($this->getRequestData(
-                $source_provider->getSource(),
+                $sourceProvider->getSource(),
                 $request
             ));
 
             // Send message
-            $provider = $this->getContainer()->get($source_provider->getProvider());
-            $provider->sendMessage($source_provider, $data);
+            $provider = $this->getContainer()->get($sourceProvider->getProvider());
+            $provider->sendMessage($sourceProvider, $data);
 
             // Notify the source
-            $this->notify($source_provider, $request);
+            $this->notify($sourceProvider, $request);
         } catch(ContactFormConfigurationException $e) {
             return array(
                 'code' => 451,

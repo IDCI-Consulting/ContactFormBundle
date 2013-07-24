@@ -32,5 +32,5 @@ abstract class AbstractProvider
      * @param array $data
      * @return boolean
      */
-    abstract function sendMessage(SourceProvider $source_provider, $data);
+    abstract function sendMessage(SourceProvider $sourceProvider, $data);
 }

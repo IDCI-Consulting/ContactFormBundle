@@ -105,12 +105,12 @@ class SourceProvider
     /**
      * Set data request transformer
      *
-     * @param string $data_request_transformer
+     * @param string $dataRequestTransformer
      * @return SourceProvider
      */
-    public function setDataRequestTransformer($data_request_transformer)
+    public function setDataRequestTransformer($dataRequestTransformer)
     {
-        $this->dataRequestTransformer = $data_request_transformer;
+        $this->dataRequestTransformer = $dataRequestTransformer;
     
         return $this;
     }
