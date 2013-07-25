@@ -18,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Message controller.
  *
- * @Route("/contact/api")
+ * @Route("/")
  */
 class ApiController extends Controller
 {
