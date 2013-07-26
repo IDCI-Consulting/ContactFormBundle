@@ -57,7 +57,6 @@ Add needed routes in the `app/config/routing.yml` to use this bundle with all yo
 idci_contact_form_api:
     resource: "../../vendor/idci/contact-form-bundle/IDCI/Bundle/ContactFormBundle/Controller/ApiController.php"
     type:     annotation
-    prefix:   /contact
 ```
 
 If you wish access to an administration space, add this following controllers:
