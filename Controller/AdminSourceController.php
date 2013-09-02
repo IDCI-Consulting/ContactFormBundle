@@ -281,12 +281,12 @@ class AdminSourceController extends Controller
      * @Route("/provider/{source_id}/new", name="admin_contact_source_provider_new")
      * @Template()
      */
-    public function newProviderAction($sourceId)
+    public function newProviderAction($source_id)
     {
         $em = $this->getDoctrine()->getManager();
         $source = $em
             ->getRepository('IDCIContactFormBundle:Source')
-            ->find($sourceId)
+            ->find($source_id)
         ;
 
         if (!$source) {
@@ -310,12 +310,12 @@ class AdminSourceController extends Controller
      * @Method("POST")
      * @Template("IDCIContactFormBundle:AdminSource:newProvider.html.twig")
      */
-    public function createProviderAction(Request $request, $sourceId)
+    public function createProviderAction(Request $request, $source_id)
     {
         $em = $this->getDoctrine()->getManager();
         $source = $em
             ->getRepository('IDCIContactFormBundle:Source')
-            ->find($sourceId)
+            ->find($source_id)
         ;
 
         if (!$source) {
@@ -343,7 +343,7 @@ class AdminSourceController extends Controller
             return $this->redirect(
                 $this->generateUrl(
                     'admin_contact_source_show',
-                    array('id' => $sourceId)
+                    array('id' => $source_id)
                 )
             );
         }
